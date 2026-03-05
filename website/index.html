@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="SpecterOS - Privacy-First Debian-based Linux Distribution. Your Privacy. Our Mission.">
-    <meta name="keywords" content="linux, privacy, security, debian, operating system, encryption, anonymity">
+    <meta name="description" content="SpecterOS - Privacy-First Debian-based Linux Distribution for security researchers and privacy advocates.">
+    <meta name="keywords" content="linux, privacy, security, debian, operating system, encryption, anonymity, penetration testing">
     <meta name="author" content="SpecterOS Project">
     
     <!-- Open Graph -->
@@ -12,13 +12,17 @@
     <meta property="og:description" content="Your Privacy. Our Mission. A secure, privacy-focused Debian-based Linux distribution.">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://sskibls.github.io/Specteros-OS">
+    <meta property="og:image" content="images/og-image.png">
     
-    <title>SpecterOS - Privacy-First Linux Distribution</title>
+    <title>SpecterOS | Privacy-First Linux Distribution</title>
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>👻</text></svg>">
     
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@400;500;600;700&family=Rajdhani:wght@400;500;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
     
     <!-- Styles -->
     <link rel="stylesheet" href="css/style.css">
@@ -28,15 +32,28 @@
     <nav class="navbar">
         <div class="container nav-container">
             <a href="index.html" class="logo">
-                <span class="logo-icon">👻</span>
-                <span class="logo-text">SpecterOS</span>
+                <svg class="logo-svg" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="20" cy="20" r="18" stroke="url(#logo-gradient)" stroke-width="2"/>
+                    <path d="M20 8C15 8 12 12 12 18C12 24 15 28 20 28C25 28 28 24 28 18C28 12 25 8 20 8Z" fill="url(#logo-gradient)"/>
+                    <circle cx="20" cy="16" r="3" fill="#0F0F0F"/>
+                    <defs>
+                        <linearGradient id="logo-gradient" x1="2" y1="2" x2="38" y2="38" gradientUnits="userSpaceOnUse">
+                            <stop stop-color="#00D4AA"/>
+                            <stop offset="1" stop-color="#7C3AED"/>
+                        </linearGradient>
+                    </defs>
+                </svg>
+                <span class="logo-text">SPECTER<span class="logo-accent">OS</span></span>
             </a>
             <ul class="nav-menu">
                 <li><a href="#features">Features</a></li>
                 <li><a href="#download">Download</a></li>
-                <li><a href="docs/index.html">Docs</a></li>
+                <li><a href="docs/index.html">Documentation</a></li>
                 <li><a href="#community">Community</a></li>
-                <li><a href="https://github.com/Sskibls/Specteros-OS" target="_blank" class="btn-github">GitHub</a></li>
+                <li><a href="https://github.com/Sskibls/Specteros-OS" target="_blank" class="btn-nav">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+                    GitHub
+                </a></li>
             </ul>
             <button class="nav-toggle" aria-label="Toggle navigation">
                 <span></span>
@@ -48,119 +65,222 @@
 
     <!-- Hero Section -->
     <section class="hero">
-        <div class="container hero-container">
+        <div class="hero-grid">
             <div class="hero-content">
+                <div class="hero-badge">
+                    <span class="badge-dot"></span>
+                    v0.1.0 Now Available
+                </div>
                 <h1 class="hero-title">
-                    <span class="gradient-text">Your Privacy.</span><br>
-                    <span class="gradient-text">Our Mission.</span>
+                    YOUR PRIVACY.<br>
+                    <span class="text-gradient">OUR MISSION.</span>
                 </h1>
-                <p class="hero-subtitle">
-                    SpecterOS is a privacy-first, Debian-based Linux distribution designed for 
-                    security researchers, privacy advocates, and anyone who values their digital freedom.
+                <p class="hero-description">
+                    SpecterOS is a privacy-first, Debian-based Linux distribution engineered for 
+                    security researchers, privacy advocates, and digital freedom fighters.
                 </p>
                 <div class="hero-cta">
                     <a href="#download" class="btn btn-primary btn-lg">
-                        <span class="btn-icon">⬇</span>
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3"/>
+                        </svg>
                         Download v0.1.0
                     </a>
-                    <a href="https://github.com/Sskibls/Specteros-OS" target="_blank" class="btn btn-secondary btn-lg">
-                        <span class="btn-icon">📦</span>
+                    <a href="https://github.com/Sskibls/Specteros-OS" target="_blank" class="btn btn-outline btn-lg">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/>
+                        </svg>
                         View on GitHub
                     </a>
                 </div>
                 <div class="hero-stats">
-                    <div class="stat">
-                        <span class="stat-number">205+</span>
-                        <span class="stat-label">Files</span>
+                    <div class="stat-item">
+                        <span class="stat-value">205+</span>
+                        <span class="stat-label">Source Files</span>
                     </div>
-                    <div class="stat">
-                        <span class="stat-number">28K+</span>
+                    <div class="stat-item">
+                        <span class="stat-value">28K+</span>
                         <span class="stat-label">Lines of Code</span>
                     </div>
-                    <div class="stat">
-                        <span class="stat-number">8</span>
+                    <div class="stat-item">
+                        <span class="stat-value">8</span>
                         <span class="stat-label">Security Daemons</span>
                     </div>
                 </div>
             </div>
-            <div class="hero-image">
-                <div class="screenshot-mockup">
-                    <div class="mockup-header">
-                        <div class="mockup-buttons">
-                            <span class="btn-red"></span>
-                            <span class="btn-yellow"></span>
-                            <span class="btn-green"></span>
+            <div class="hero-visual">
+                <div class="terminal-window">
+                    <div class="terminal-header">
+                        <div class="terminal-buttons">
+                            <span class="btn-close"></span>
+                            <span class="btn-minimize"></span>
+                            <span class="btn-maximize"></span>
                         </div>
+                        <span class="terminal-title">specteros@ghost:~</span>
                     </div>
-                    <div class="mockup-content">
-                        <pre class="terminal-text">
-<span class="text-green">╔═══════════════════════════════════════════════════════════╗</span>
-<span class="text-green">║</span>         SpecterOS v0.1.0 - Privacy First              <span class="text-green">║</span>
-<span class="text-green">╚═══════════════════════════════════════════════════════════╝</span>
+                    <div class="terminal-body">
+                        <pre class="terminal-code"><span class="code-purple">╭────────────────────────────────────────────────────╮</span>
+<span class="code-purple">│</span>         <span class="code-cyan">SPECTEROS v0.1.0</span> - Privacy First             <span class="code-purple">│</span>
+<span class="code-purple">╰────────────────────────────────────────────────────╯</span>
 
-<span class="text-cyan">[✓]</span> Persona Shards: <span class="text-white">work / anon / burner / lab</span>
-<span class="text-cyan">[✓]</span> Network Kill Switch: <span class="text-white">Active</span>
-<span class="text-cyan">[✓]</span> DNS over HTTPS: <span class="text-white">Enabled</span>
-<span class="text-cyan">[✓]</span> Full Disk Encryption: <span class="text-white">LUKS2</span>
-<span class="text-cyan">[✓]</span> Audit Logging: <span class="text-white">Tamper-evident</span>
+<span class="code-green">✓</span> Persona Shards: <span class="code-white">work / anon / burner / lab</span>
+<span class="code-green">✓</span> Network Kill Switch: <span class="code-white">ACTIVE</span>
+<span class="code-green">✓</span> DNS over HTTPS: <span class="code-white">ENABLED</span>
+<span class="code-green">✓</span> Full Disk Encryption: <span class="code-white">LUKS2</span>
+<span class="code-green">✓</span> Audit Logging: <span class="code-white">TAMPER-EVIDENT</span>
 
-<span class="text-yellow">Welcome to SpecterOS. Your privacy is protected.</span>
-                        </pre>
+<span class="code-yellow">┌──────────────────────────────────────────┐</span>
+<span class="code-yellow">│</span>  Welcome to SpecterOS. Your privacy is   <span class="code-yellow">│</span>
+<span class="code-yellow">│</span>  protected. All systems operational.     <span class="code-yellow">│</span>
+<span class="code-yellow">└──────────────────────────────────────────┘</span>
+
+<span class="code-dim">root@specteros:~#</span> <span class="cursor">_</span></pre>
                     </div>
                 </div>
+                <div class="glow-effect"></div>
             </div>
         </div>
-        <div class="hero-bg-effect"></div>
+        <div class="hero-bg-grid"></div>
     </section>
 
     <!-- Features Section -->
     <section id="features" class="features">
         <div class="container">
             <div class="section-header">
-                <h2 class="section-title">Privacy Features</h2>
-                <p class="section-subtitle">Built from the ground up for maximum privacy and security</p>
+                <span class="section-tag">FEATURES</span>
+                <h2 class="section-title">BUILT FOR <span class="text-gradient">PRIVACY</span></h2>
+                <p class="section-subtitle">Advanced security features engineered into every layer</p>
             </div>
             <div class="features-grid">
                 <div class="feature-card">
-                    <div class="feature-icon">🎭</div>
+                    <div class="feature-icon-box">🎭</div>
                     <h3>Persona Shards</h3>
-                    <p>Isolated environments for different identities - Work, Anon, Burner, and Lab. Each shard has independent storage, network routes, and policies.</p>
+                    <p>Isolated environments for different identities. Each shard has independent storage, network routes, and security policies.</p>
+                    <a href="docs/shards.html" class="feature-link">Learn more →</a>
                 </div>
                 <div class="feature-card">
-                    <div class="feature-icon">🔌</div>
+                    <div class="feature-icon-box">⚡</div>
                     <h3>Network Kill Switch</h3>
-                    <p>Instant network disconnect for emergencies. One keystroke blocks all network traffic to protect your identity.</p>
+                    <p>Emergency network disconnect at hardware level. One keystroke blocks all traffic to protect your identity instantly.</p>
+                    <a href="docs/network.html" class="feature-link">Learn more →</a>
                 </div>
                 <div class="feature-card">
-                    <div class="feature-icon">🔐</div>
+                    <div class="feature-icon-box">🔐</div>
                     <h3>Full Disk Encryption</h3>
-                    <p>LUKS2 encryption by default. Your data stays protected even if your device is compromised.</p>
+                    <p>LUKS2 encryption by default. Your data remains protected even if physical security is compromised.</p>
+                    <a href="docs/encryption.html" class="feature-link">Learn more →</a>
                 </div>
                 <div class="feature-card">
-                    <div class="feature-icon">📋</div>
+                    <div class="feature-icon-box">📋</div>
                     <h3>Audit Logging</h3>
-                    <p>Tamper-evident security event logging. Know exactly what happened and when.</p>
+                    <p>Tamper-evident security event logging with cryptographic verification. Know exactly what happened and when.</p>
+                    <a href="docs/security.html" class="feature-link">Learn more →</a>
                 </div>
                 <div class="feature-card">
-                    <div class="feature-icon">🧅</div>
+                    <div class="feature-icon-box">🧅</div>
                     <h3>Tor Integration</h3>
-                    <p>Built-in Tor support for anonymous browsing. Route any application through Tor with one click.</p>
+                    <p>Built-in Tor support for anonymous browsing. Route any application through Tor with transparent proxying.</p>
+                    <a href="docs/network.html#tor" class="feature-link">Learn more →</a>
                 </div>
                 <div class="feature-card">
-                    <div class="feature-icon">🛡️</div>
-                    <h3>Secure Boot</h3>
-                    <p>UEFI Secure Boot support with custom key enrollment. Protect your boot chain from tampering.</p>
+                    <div class="feature-icon-box">🛡️</div>
+                    <h3>Secure Boot Chain</h3>
+                    <p>UEFI Secure Boot with custom key enrollment. Complete boot chain verification from firmware to userspace.</p>
+                    <a href="docs/security.html#secure-boot" class="feature-link">Learn more →</a>
                 </div>
                 <div class="feature-card">
-                    <div class="feature-icon">🔄</div>
-                    <h3>A/B Updates</h3>
-                    <p>Seamless system updates with rollback support. Never brick your system again.</p>
+                    <div class="feature-icon-box">🔄</div>
+                    <h3>A/B System Updates</h3>
+                    <p>Seamless updates with automatic rollback. Never brick your system - always bootable, always recoverable.</p>
+                    <a href="docs/updates.html" class="feature-link">Learn more →</a>
                 </div>
                 <div class="feature-card">
-                    <div class="feature-icon">🔒</div>
+                    <div class="feature-icon-box">🔒</div>
                     <h3>DNS over HTTPS</h3>
-                    <p>Encrypted DNS queries by default. Prevent DNS snooping and manipulation.</p>
+                    <p>Encrypted DNS queries by default. Prevent DNS snooping, manipulation, and surveillance by ISPs.</p>
+                    <a href="docs/network.html#dns" class="feature-link">Learn more →</a>
                 </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Comparison Section -->
+    <section class="comparison">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-tag">COMPARISON</span>
+                <h2 class="section-title">WHY <span class="text-gradient">SPECTEROS?</span></h2>
+            </div>
+            <div class="comparison-table-wrapper">
+                <table class="comparison-table">
+                    <thead>
+                        <tr>
+                            <th>Feature</th>
+                            <th class="highlight">SpecterOS</th>
+                            <th>Kali</th>
+                            <th>Parrot</th>
+                            <th>Tails</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Base Distribution</td>
+                            <td class="highlight">Debian 12</td>
+                            <td>Debian</td>
+                            <td>Debian</td>
+                            <td>Debian</td>
+                        </tr>
+                        <tr>
+                            <td>Desktop Environment</td>
+                            <td class="highlight">XFCE (Lightweight)</td>
+                            <td>XFCE</td>
+                            <td>MATE</td>
+                            <td>GNOME</td>
+                        </tr>
+                        <tr>
+                            <td>Persona Shards</td>
+                            <td class="highlight">✅ Built-in</td>
+                            <td>❌</td>
+                            <td>❌</td>
+                            <td>❌</td>
+                        </tr>
+                        <tr>
+                            <td>Network Kill Switch</td>
+                            <td class="highlight">✅ Hardware Level</td>
+                            <td>❌</td>
+                            <td>⚠️ Software</td>
+                            <td>✅</td>
+                        </tr>
+                        <tr>
+                            <td>Default Encryption</td>
+                            <td class="highlight">✅ LUKS2</td>
+                            <td>⚠️ Optional</td>
+                            <td>⚠️ Optional</td>
+                            <td>✅</td>
+                        </tr>
+                        <tr>
+                            <td>Audit Framework</td>
+                            <td class="highlight">✅ Tamper-evident</td>
+                            <td>❌</td>
+                            <td>⚠️ Basic</td>
+                            <td>❌</td>
+                        </tr>
+                        <tr>
+                            <td>A/B Updates</td>
+                            <td class="highlight">✅ Yes</td>
+                            <td>❌</td>
+                            <td>❌</td>
+                            <td>❌</td>
+                        </tr>
+                        <tr>
+                            <td>DNS over HTTPS</td>
+                            <td class="highlight">✅ Default</td>
+                            <td>❌</td>
+                            <td>⚠️ Optional</td>
+                            <td>✅</td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
         </div>
     </section>
@@ -169,78 +289,101 @@
     <section id="download" class="download">
         <div class="container">
             <div class="section-header">
-                <h2 class="section-title">Download SpecterOS</h2>
-                <p class="section-subtitle">Get started with SpecterOS today</p>
+                <span class="section-tag">DOWNLOAD</span>
+                <h2 class="section-title">GET <span class="text-gradient">SPECTEROS</span></h2>
+                <p class="section-subtitle">Start your journey to digital privacy</p>
             </div>
-            <div class="download-container">
-                <div class="download-card">
-                    <div class="version-badge">Latest Release</div>
+            <div class="download-grid">
+                <div class="download-card featured">
+                    <div class="download-badge">
+                        <span class="pulse-dot"></span>
+                        LATEST RELEASE
+                    </div>
                     <h3>SpecterOS v0.1.0</h3>
-                    <p class="version-info">Based on Debian 12 (Bookworm) with XFCE Desktop</p>
-                    <div class="download-options">
-                        <a href="#" class="btn btn-primary btn-block">
-                            <span class="btn-icon">⬇</span>
-                            Direct Download (3.2 GB)
+                    <p class="download-info">Debian 12 Bookworm • XFCE Desktop • 64-bit</p>
+                    <div class="download-size">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3"/>
+                        </svg>
+                        3.2 GB ISO
+                    </div>
+                    <div class="download-buttons">
+                        <a href="#" class="btn btn-primary btn-block btn-lg">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3"/>
+                            </svg>
+                            Direct Download
                         </a>
-                        <a href="#" class="btn btn-secondary btn-block">
-                            <span class="btn-icon">🧲</span>
+                        <a href="#" class="btn btn-outline btn-block">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M19.439 15.424a1 1 0 00-1.478-1.345 4.992 4.992 0 01-3.358 1.321c-2.76 0-5-2.24-5-5s2.24-5 5-5a4.992 4.992 0 013.358 1.321 1 1 0 101.478-1.345 6.992 6.992 0 00-4.836-1.977C9.401 3.4 5 7.801 5 13.4s4.401 10 9.601 10a6.992 6.992 0 004.836-1.977z"/>
+                            </svg>
                             Torrent Download
                         </a>
                     </div>
-                    <div class="checksum-info">
-                        <p><strong>SHA256:</strong></p>
-                        <code>abc123def456789... (verify after download)</code>
-                    </div>
-                    <div class="system-requirements">
-                        <h4>System Requirements</h4>
-                        <ul>
-                            <li><strong>CPU:</strong> 2 cores (x86_64)</li>
-                            <li><strong>RAM:</strong> 2 GB minimum, 4 GB recommended</li>
-                            <li><strong>Storage:</strong> 20 GB minimum, 64 GB recommended</li>
-                            <li><strong>Boot:</strong> USB or DVD</li>
-                        </ul>
+                    <div class="checksum-box">
+                        <div class="checksum-header">
+                            <span>SHA256 Checksum</span>
+                            <button class="btn-copy" onclick="copyChecksum()">Copy</button>
+                        </div>
+                        <code class="checksum-value">abc123def456789... <span class="checksum-note">(verify after download)</span></code>
                     </div>
                 </div>
-                <div class="download-links">
-                    <h3>Additional Resources</h3>
-                    <ul class="link-list">
-                        <li>
-                            <a href="docs/installation.html">
-                                <span class="link-icon">📖</span>
-                                <div>
-                                    <span class="link-title">Installation Guide</span>
-                                    <span class="link-desc">Step-by-step installation instructions</span>
-                                </div>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="https://github.com/Sskibls/Specteros-OS" target="_blank">
-                                <span class="link-icon">📦</span>
-                                <div>
-                                    <span class="link-title">Source Code</span>
-                                    <span class="link-desc">Build from source on GitHub</span>
-                                </div>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="docs/verification.html">
-                                <span class="link-icon">✓</span>
-                                <div>
-                                    <span class="link-title">Verify Download</span>
-                                    <span class="link-desc">Check SHA256 and GPG signatures</span>
-                                </div>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="docs/changelog.html">
-                                <span class="link-icon">📝</span>
-                                <div>
-                                    <span class="link-title">Changelog</span>
-                                    <span class="link-desc">What's new in v0.1.0</span>
-                                </div>
-                            </a>
-                        </li>
-                    </ul>
+                <div class="download-info-card">
+                    <h4>System Requirements</h4>
+                    <div class="requirements-list">
+                        <div class="requirement-item">
+                            <span class="req-icon">💻</span>
+                            <div>
+                                <span class="req-label">Processor</span>
+                                <span class="req-value">2 cores (x86_64)</span>
+                            </div>
+                        </div>
+                        <div class="requirement-item">
+                            <span class="req-icon">🧠</span>
+                            <div>
+                                <span class="req-label">Memory</span>
+                                <span class="req-value">2 GB RAM (4 GB recommended)</span>
+                            </div>
+                        </div>
+                        <div class="requirement-item">
+                            <span class="req-icon">💾</span>
+                            <div>
+                                <span class="req-label">Storage</span>
+                                <span class="req-value">20 GB (64 GB recommended)</span>
+                            </div>
+                        </div>
+                        <div class="requirement-item">
+                            <span class="req-icon">📀</span>
+                            <div>
+                                <span class="req-label">Boot Media</span>
+                                <span class="req-value">USB drive or DVD</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="download-links-list">
+                        <h4>Resources</h4>
+                        <a href="docs/installation.html" class="link-item">
+                            <span class="link-icon">📖</span>
+                            <span>Installation Guide</span>
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>
+                        </a>
+                        <a href="docs/verification.html" class="link-item">
+                            <span class="link-icon">✓</span>
+                            <span>Verify Download</span>
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>
+                        </a>
+                        <a href="https://github.com/Sskibls/Specteros-OS" target="_blank" class="link-item">
+                            <span class="link-icon">📦</span>
+                            <span>Source Code</span>
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>
+                        </a>
+                        <a href="docs/changelog.html" class="link-item">
+                            <span class="link-icon">📝</span>
+                            <span>Changelog</span>
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>
+                        </a>
+                    </div>
                 </div>
             </div>
         </div>
@@ -250,27 +393,30 @@
     <section id="community" class="community">
         <div class="container">
             <div class="section-header">
-                <h2 class="section-title">Join the Community</h2>
-                <p class="section-subtitle">Connect with other SpecterOS users and contributors</p>
+                <span class="section-tag">COMMUNITY</span>
+                <h2 class="section-title">JOIN THE <span class="text-gradient">MOVEMENT</span></h2>
+                <p class="section-subtitle">Connect with privacy advocates worldwide</p>
             </div>
             <div class="community-grid">
                 <a href="https://github.com/Sskibls/Specteros-OS" target="_blank" class="community-card">
-                    <div class="community-icon">📦</div>
+                    <div class="community-card-icon">
+                        <svg width="40" height="40" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+                    </div>
                     <h3>GitHub</h3>
-                    <p>View source code, report issues, and contribute</p>
+                    <p>View source, report issues, contribute code</p>
                 </a>
                 <a href="#" class="community-card">
-                    <div class="community-icon">💬</div>
+                    <div class="community-card-icon">💬</div>
                     <h3>Discord</h3>
-                    <p>Chat with the community and get help</p>
+                    <p>Chat with community, get help, share ideas</p>
                 </a>
                 <a href="#" class="community-card">
-                    <div class="community-icon">📧</div>
+                    <div class="community-card-icon">📧</div>
                     <h3>Mailing List</h3>
-                    <p>Stay updated with announcements and security advisories</p>
+                    <p>Security advisories and release announcements</p>
                 </a>
                 <a href="#" class="community-card">
-                    <div class="community-icon">🐛</div>
+                    <div class="community-card-icon">🐛</div>
                     <h3>Bug Tracker</h3>
                     <p>Report bugs and request features</p>
                 </a>
@@ -284,45 +430,56 @@
             <div class="footer-grid">
                 <div class="footer-brand">
                     <a href="index.html" class="logo">
-                        <span class="logo-icon">👻</span>
-                        <span class="logo-text">SpecterOS</span>
+                        <svg class="logo-svg" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <circle cx="20" cy="20" r="18" stroke="url(#logo-gradient-footer)" stroke-width="2"/>
+                            <path d="M20 8C15 8 12 12 12 18C12 24 15 28 20 28C25 28 28 24 28 18C28 12 25 8 20 8Z" fill="url(#logo-gradient-footer)"/>
+                            <circle cx="20" cy="16" r="3" fill="#0F0F0F"/>
+                            <defs>
+                                <linearGradient id="logo-gradient-footer" x1="2" y1="2" x2="38" y2="38" gradientUnits="userSpaceOnUse">
+                                    <stop stop-color="#00D4AA"/>
+                                    <stop offset="1" stop-color="#7C3AED"/>
+                                </linearGradient>
+                            </defs>
+                        </svg>
+                        <span class="logo-text">SPECTER<span class="logo-accent">OS</span></span>
                     </a>
-                    <p>Privacy-First Linux Distribution</p>
-                    <div class="social-links">
-                        <a href="https://github.com/Sskibls/Specteros-OS" target="_blank" aria-label="GitHub">GitHub</a>
-                    </div>
+                    <p>Privacy-first Linux distribution for the modern age.</p>
                 </div>
-                <div class="footer-links">
-                    <h4>Quick Links</h4>
+                <div class="footer-column">
+                    <h4>Product</h4>
                     <ul>
+                        <li><a href="#features">Features</a></li>
                         <li><a href="#download">Download</a></li>
                         <li><a href="docs/index.html">Documentation</a></li>
-                        <li><a href="#features">Features</a></li>
-                        <li><a href="blog/index.html">Blog</a></li>
+                        <li><a href="docs/changelog.html">Changelog</a></li>
                     </ul>
                 </div>
-                <div class="footer-links">
+                <div class="footer-column">
                     <h4>Resources</h4>
                     <ul>
-                        <li><a href="docs/installation.html">Installation Guide</a></li>
-                        <li><a href="docs/security.html">Security Features</a></li>
+                        <li><a href="docs/installation.html">Installation</a></li>
+                        <li><a href="docs/security.html">Security</a></li>
                         <li><a href="docs/faq.html">FAQ</a></li>
                         <li><a href="https://github.com/Sskibls/Specteros-OS" target="_blank">Source Code</a></li>
                     </ul>
                 </div>
-                <div class="footer-links">
-                    <h4>Legal</h4>
+                <div class="footer-column">
+                    <h4>Community</h4>
                     <ul>
-                        <li><a href="privacy.html">Privacy Policy</a></li>
-                        <li><a href="terms.html">Terms of Use</a></li>
-                        <li><a href="security.html">Security Policy</a></li>
-                        <li><a href="license.html">License (Apache 2.0)</a></li>
+                        <li><a href="https://github.com/Sskibls/Specteros-OS" target="_blank">GitHub</a></li>
+                        <li><a href="#">Discord</a></li>
+                        <li><a href="#">Mailing List</a></li>
+                        <li><a href="https://github.com/Sskibls/Specteros-OS/issues" target="_blank">Issues</a></li>
                     </ul>
                 </div>
             </div>
             <div class="footer-bottom">
                 <p>&copy; 2024 SpecterOS Project. Licensed under Apache 2.0.</p>
-                <p>Built with ❤️ for privacy and security.</p>
+                <div class="footer-legal">
+                    <a href="privacy.html">Privacy Policy</a>
+                    <a href="terms.html">Terms of Use</a>
+                    <a href="security.html">Security Policy</a>
+                </div>
             </div>
         </div>
     </footer>
