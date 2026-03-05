@@ -72,12 +72,21 @@ body {
     overflow-x: hidden;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    width: 100%;
+    max-width: 100vw;
 }
 
 .container {
+    width: 100%;
     max-width: var(--container-max);
     margin: 0 auto;
-    padding: 0 24px;
+    padding: 0 20px;
+}
+
+@media (max-width: 768px) {
+    .container {
+        padding: 0 16px;
+    }
 }
 
 /* ===== Typography ===== */
@@ -87,6 +96,7 @@ h1, h2, h3, h4, h5, h6 {
     font-weight: 600;
     line-height: 1.2;
     letter-spacing: -0.02em;
+    word-wrap: break-word;
 }
 
 .text-gradient {
@@ -119,6 +129,7 @@ a:hover {
     z-index: 1000;
     display: flex;
     align-items: center;
+    width: 100%;
 }
 
 .nav-container {
@@ -126,6 +137,9 @@ a:hover {
     justify-content: space-between;
     align-items: center;
     width: 100%;
+    max-width: var(--container-max);
+    margin: 0 auto;
+    padding: 0 20px;
 }
 
 .logo {
@@ -136,11 +150,13 @@ a:hover {
     font-family: var(--font-display);
     font-size: 1.5rem;
     font-weight: 700;
+    flex-shrink: 0;
 }
 
 .logo-svg {
     width: 40px;
     height: 40px;
+    flex-shrink: 0;
 }
 
 .logo-accent {
@@ -164,6 +180,7 @@ a:hover {
     border-radius: var(--radius-sm);
     font-size: 0.95rem;
     transition: var(--transition-fast);
+    white-space: nowrap;
 }
 
 .nav-menu a:hover {
@@ -194,6 +211,7 @@ a:hover {
     border: none;
     cursor: pointer;
     padding: 8px;
+    flex-shrink: 0;
 }
 
 .nav-toggle span {
@@ -211,7 +229,8 @@ a:hover {
     display: flex;
     align-items: center;
     position: relative;
-    overflow: hidden;
+    overflow-x: hidden;
+    width: 100%;
 }
 
 .hero-grid {
@@ -219,6 +238,9 @@ a:hover {
     grid-template-columns: 1.1fr 1fr;
     gap: 60px;
     align-items: center;
+    width: 100%;
+    max-width: var(--container-max);
+    margin: 0 auto;
 }
 
 .hero-badge {
@@ -259,7 +281,6 @@ a:hover {
     font-size: 1.15rem;
     color: var(--text-muted);
     margin-bottom: 32px;
-    max-width: 540px;
     line-height: 1.8;
 }
 
@@ -297,6 +318,7 @@ a:hover {
 /* Terminal Window */
 .hero-visual {
     position: relative;
+    width: 100%;
 }
 
 .terminal-window {
@@ -305,6 +327,7 @@ a:hover {
     border-radius: var(--radius-lg);
     overflow: hidden;
     box-shadow: var(--shadow-lg);
+    width: 100%;
 }
 
 .terminal-header {
@@ -347,6 +370,7 @@ a:hover {
     font-size: 0.9rem;
     line-height: 1.8;
     color: var(--text-secondary);
+    overflow-x: auto;
 }
 
 .code-purple { color: #a855f7; }
@@ -486,6 +510,8 @@ a:hover {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
     gap: 24px;
+    max-width: var(--container-max);
+    margin: 0 auto;
 }
 
 .feature-card {
@@ -556,12 +582,16 @@ a:hover {
     overflow-x: auto;
     border: 1px solid var(--border-color);
     border-radius: var(--radius-lg);
+    max-width: var(--container-max);
+    margin: 0 auto;
+    -webkit-overflow-scrolling: touch;
 }
 
 .comparison-table {
     width: 100%;
     border-collapse: collapse;
     font-size: 0.95rem;
+    min-width: 600px;
 }
 
 .comparison-table th,
@@ -610,6 +640,8 @@ a:hover {
     display: grid;
     grid-template-columns: 1.2fr 1fr;
     gap: 32px;
+    max-width: var(--container-max);
+    margin: 0 auto;
 }
 
 .download-card {
@@ -799,6 +831,8 @@ a:hover {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
     gap: 24px;
+    max-width: var(--container-max);
+    margin: 0 auto;
 }
 
 .community-card {
@@ -841,6 +875,9 @@ a:hover {
     grid-template-columns: 2fr 1fr 1fr 1fr;
     gap: 48px;
     margin-bottom: 48px;
+    max-width: var(--container-max);
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .footer-brand p {
@@ -946,6 +983,10 @@ a:hover {
         padding: 120px 0 60px;
     }
     
+    .hero-title {
+        font-size: 2rem;
+    }
+    
     .hero-stats {
         flex-direction: column;
         gap: 24px;
@@ -969,6 +1010,41 @@ a:hover {
     .comparison-table th,
     .comparison-table td {
         padding: 12px 16px;
+    }
+    
+    .section-header {
+        margin-bottom: 40px;
+    }
+    
+    .section-title {
+        font-size: 1.75rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .container {
+        padding: 0 12px;
+    }
+    
+    .hero-title {
+        font-size: 1.75rem;
+    }
+    
+    .hero-cta {
+        flex-direction: column;
+        width: 100%;
+    }
+    
+    .btn-lg {
+        width: 100%;
+    }
+    
+    .terminal-body {
+        padding: 16px;
+    }
+    
+    .terminal-code {
+        font-size: 0.75rem;
     }
 }
 
