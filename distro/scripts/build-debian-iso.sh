@@ -119,10 +119,7 @@ chroot "$ROOTFS" apt-get install -y \
     vim \
     htop \
     isolinux \
-    syslinux \
-    syslinux-efi \
-    grub-pc-bin \
-    grub-efi-amd64-bin \
+    syslinux-common \
     mtools \
     dosfstools \
     2>&1 | tee /tmp/apt-install.log
@@ -286,9 +283,9 @@ mkdir -p "$PROJECT_ROOT/output"
 mkdir -p "$ISO_ROOT/isolinux"
 cp "$ROOTFS/usr/lib/ISOLINUX/isohdpfx.bin" "$ISO_ROOT/"
 cp "$ROOTFS/usr/lib/ISOLINUX/isolinux.bin" "$ISO_ROOT/isolinux/"
-cp "$ROOTFS/usr/lib/ISOLINUX/ldlinux.c32" "$ISO_ROOT/isolinux/"
-cp "$ROOTFS/usr/lib/syslinux/modules/bios/menu.c32" "$ISO_ROOT/isolinux/"
-cp "$ROOTFS/usr/lib/syslinux/modules/bios/chain.c32" "$ISO_ROOT/isolinux/"
+# Copy any available syslinux modules
+find "$ROOTFS/usr/lib" -name "*.c32" -exec cp {} "$ISO_ROOT/isolinux/" \; 2>/dev/null || true
+
 cat > "$ISO_ROOT/isolinux/isolinux.cfg" << 'EOF'
 UI menu.c32
 PROMPT 0
@@ -318,9 +315,6 @@ xorriso -as mkisofs \
     -no-emul-boot \
     -boot-load-size 4 \
     -boot-info-table \
-    -eltorito-alt-boot \
-    -e EFI/efi.img \
-    -no-emul-boot \
     -isohybrid-mbr "$ISO_ROOT/isohdpfx.bin" \
     -o "$PROJECT_ROOT/output/specteros-os-debian-$(date +%Y%m%d).iso" \
     "$ISO_ROOT" 2>&1 | tee /tmp/iso-build.log
