@@ -118,6 +118,11 @@ chroot "$ROOTFS" apt-get install -y \
     git \
     vim \
     htop \
+    isolinux \
+    syslinux-efi \
+    grub-pc-bin \
+    grub-efi-amd64-bin \
+    mtools \
     2>&1 | tee /tmp/apt-install.log
 
 # Install LibreOffice separately with --force-bad-versions
@@ -275,6 +280,9 @@ mksquashfs "$ROOTFS" "$ISO_ROOT/live/filesystem.squashfs" -comp xz -b 1024k
 log_step "Building ISO image..."
 mkdir -p "$PROJECT_ROOT/output"
 
+# Copy ISOLINUX bootloader
+cp "$ROOTFS/usr/lib/ISOLINUX/isohdpfx.bin" "$ISO_ROOT/"
+
 xorriso -as mkisofs \
     -iso-level 3 \
     -rock \
@@ -287,7 +295,7 @@ xorriso -as mkisofs \
     -boot-info-table \
     -eltorito-alt-boot \
     -no-emul-boot \
-    -isohybrid-mbr /usr/lib/ISOLINUX/isohdpfx.bin \
+    -isohybrid-mbr "$ISO_ROOT/isohdpfx.bin" \
     -o "$PROJECT_ROOT/output/specteros-os-debian-$(date +%Y%m%d).iso" \
     "$ISO_ROOT" 2>&1 | tee /tmp/iso-build.log
 
