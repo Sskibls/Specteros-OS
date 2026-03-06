@@ -1,0 +1,543 @@
+#!/bin/bash
+# SpecterOS Custom UI - Hand-crafted, unique design
+# Not your typical "cyberpunk" AI slop
+
+set -e
+
+# ============================================
+# SPECTEROS CUSTOM DESKTOP ENVIRONMENT
+# ============================================
+
+# Create directories
+mkdir -p /opt/specteros/ui
+mkdir -p /etc/skel/.config/specteros
+mkdir -p /usr/share/specteros
+
+# ============================================
+# 1. CUSTOM PANEL (Top Bar)
+# ============================================
+
+cat > /opt/specteros/ui/panel.py << 'PYTHON'
+#!/usr/bin/env python3
+"""
+SpecterOS Panel - Custom top bar
+Minimal, functional, no bullshit design
+"""
+
+import gi
+gi.require_version('Gtk', '3.0')
+from gi.repository import Gtk, Gdk, GLib
+import subprocess
+import psutil
+import datetime
+
+class SpecterPanel(Gtk.Window):
+    def __init__(self):
+        super().__init__()
+        
+        # Window setup - transparent, top bar
+        self.set_decorated(False)
+        self.set_keep_above(True)
+        self.set_app_paintable(True)
+        self.stick()
+        self.set_default_size(-1, 28)
+        
+        # Get screen size
+        screen = Gdk.Screen.get_default()
+        self.set_default_size(screen.get_width(), 28)
+        
+        # Main box
+        self.box = Gtk.Box(spacing=0)
+        self.add(self.box)
+        
+        # LEFT SECTION - Logo + Menu
+        left_box = Gtk.Box(spacing=12)
+        left_box.set_margin_start(12)
+        self.box.pack_start(left_box, False, False, 0)
+        
+        # SpecterOS logo (simple ghost icon)
+        logo = Gtk.Label(label="👻")
+        logo.get_style_context().add_class("logo")
+        left_box.pack_start(logo, False, False, 0)
+        
+        # Menu button
+        menu_btn = Gtk.Button(label="Menu")
+        menu_btn.get_style_context().add_class("panel-btn")
+        menu_btn.connect("clicked", self.open_menu)
+        left_box.pack_start(menu_btn, False, False, 0)
+        
+        # Workspace indicator
+        self.ws_label = Gtk.Label(label="Work")
+        self.ws_label.get_style_context().add_class("workspace")
+        left_box.pack_start(self.ws_label, False, False, 0)
+        
+        # CENTER SECTION - Empty (spacer)
+        center = Gtk.Box()
+        self.box.pack_start(center, True, True, 0)
+        
+        # RIGHT SECTION - Status + Clock
+        right_box = Gtk.Box(spacing=16)
+        right_box.set_margin_end(12)
+        self.box.pack_end(right_box, False, False, 0)
+        
+        # Network status
+        self.net_label = Gtk.Label(label="🌐")
+        self.net_label.get_style_context().add_class("status-icon")
+        right_box.pack_start(self.net_label, False, False, 0)
+        
+        # Kill switch indicator
+        self.ks_label = Gtk.Label(label="")
+        self.ks_label.get_style_context().add_class("killswitch")
+        right_box.pack_start(self.ks_label, False, False, 0)
+        
+        # Clock
+        self.clock_label = Gtk.Label()
+        self.clock_label.get_style_context().add_class("clock")
+        right_box.pack_start(self.clock_label, False, False, 0)
+        
+        # Update clock every second
+        GLib.timeout_add_seconds(1, self.update_clock)
+        
+        # Apply styles
+        self.apply_css()
+        
+        self.show_all()
+    
+    def apply_css(self):
+        css = b"""
+        window {
+            background: rgba(8, 8, 12, 0.92);
+            border-bottom: 1px solid rgba(0, 200, 170, 0.25);
+        }
+        .logo {
+            font-size: 16px;
+            color: #00c8aa;
+        }
+        .panel-btn {
+            background: transparent;
+            border: none;
+            color: #c0c0d0;
+            font-size: 13px;
+            padding: 4px 10px;
+        }
+        .panel-btn:hover {
+            background: rgba(0, 200, 170, 0.15);
+            color: #00c8aa;
+        }
+        .workspace {
+            background: rgba(0, 200, 170, 0.12);
+            color: #00c8aa;
+            padding: 3px 10px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+        .status-icon {
+            color: #8899aa;
+            font-size: 14px;
+        }
+        .killswitch {
+            color: #ff4466;
+            font-size: 12px;
+            font-weight: 700;
+        }
+        .clock {
+            color: #a0b0c0;
+            font-size: 13px;
+            font-family: 'JetBrains Mono', monospace;
+        }
+        """
+        provider = Gtk.CssProvider()
+        provider.load_from_data(css)
+        Gtk.StyleContext.add_provider_for_screen(
+            Gdk.Screen.get_default(),
+            provider,
+            Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION
+        )
+    
+    def update_clock(self):
+        now = datetime.datetime.now()
+        self.clock_label.set_text(now.strftime("%H:%M  %b %d"))
+        return True
+    
+    def open_menu(self, widget):
+        subprocess.Popen(["xfce4-popup-whiskermenu"])
+
+if __name__ == "__main__":
+    panel = SpecterPanel()
+    Gtk.main()
+PYTHON
+
+chmod +x /opt/specteros/ui/panel.py
+
+# ============================================
+# 2. CUSTOM APPLICATION LAUNCHER
+# ============================================
+
+cat > /opt/specteros/ui/launcher.py << 'PYTHON'
+#!/usr/bin/env python3
+"""
+SpecterOS Launcher - Simple app grid
+No search bars, no AI nonsense. Just apps.
+"""
+
+import gi
+gi.require_version('Gtk', '3.0')
+from gi.repository import Gtk, Gdk
+import subprocess
+import os
+
+APPS = [
+    ("🌐", "Firefox", "firefox-esr"),
+    ("📁", "Files", "thunar"),
+    ("🖥️", "Terminal", "terminator"),
+    ("📝", "Editor", "mousepad"),
+    ("⚙️", "Settings", "xfce4-settings-manager"),
+    ("🔒", "Shards", "specteros-tui"),
+    ("🎨", "Colors", "org.gnome.ColorViewer"),
+    ("📊", "Monitor", "htop"),
+    ("🔧", "System", "gnome-system-monitor"),
+    ("📷", "Screenshot", "flameshot"),
+    ("🎵", "Music", "rhythmbox"),
+    ("🎮", "Games", "steam"),
+]
+
+class Launcher(Gtk.Window):
+    def __init__(self):
+        super().__init__()
+        
+        self.set_decorated(False)
+        self.set_app_paintable(True)
+        self.set_default_size(520, 480)
+        self.set_position(Gtk.WindowPosition.CENTER)
+        
+        # Main container
+        main = Gtk.Box(orientation=Gtk.Orientation.VERTICAL)
+        main.set_margin_start(30)
+        main.set_margin_end(30)
+        main.set_margin_top(30)
+        main.set_margin_bottom(30)
+        self.add(main)
+        
+        # Header
+        header = Gtk.Label(label="SpecterOS")
+        header.get_style_context().add_class("header")
+        main.pack_start(header, False, False, 10)
+        
+        # App grid
+        grid = Gtk.Grid()
+        grid.set_column_spacing(15)
+        grid.set_row_spacing(15)
+        main.pack_start(grid, True, True, 0)
+        
+        # Add apps
+        for i, (icon, name, cmd) in enumerate(APPS):
+            col = i % 4
+            row = i // 4
+            
+            btn = Gtk.Box(orientation=Gtk.Orientation.VERTICAL)
+            btn.set_spacing(6)
+            
+            icon_label = Gtk.Label(label=icon)
+            icon_label.set_markup(f"<span size='xx-large'>{icon}</span>")
+            btn.pack_start(icon_label, False, False, 0)
+            
+            name_label = Gtk.Label(label=name)
+            name_label.get_style_context().add_class("app-name")
+            btn.pack_start(name_label, False, False, 0)
+            
+            event = Gtk.EventBox()
+            event.add(btn)
+            event.get_style_context().add_class("app-btn")
+            event.connect("button-press-event", lambda w, e, c=cmd: self.launch(c))
+            
+            grid.attach(event, col, row, 1, 1)
+        
+        # Footer
+        footer = Gtk.Label(label="Press ESC to close")
+        footer.get_style_context().add_class("footer")
+        main.pack_start(footer, False, False, 10)
+        
+        self.apply_css()
+        self.show_all()
+        
+        # ESC to close
+        self.connect("key-press-event", self.on_key)
+    
+    def apply_css(self):
+        css = b"""
+        window {
+            background: rgba(12, 12, 18, 0.96);
+            border: 1px solid rgba(0, 200, 170, 0.3);
+            border-radius: 10px;
+        }
+        .header {
+            font-size: 28px;
+            font-weight: 700;
+            color: #00c8aa;
+            letter-spacing: 2px;
+        }
+        .app-btn {
+            padding: 15px;
+            border-radius: 8px;
+        }
+        .app-btn:hover {
+            background: rgba(0, 200, 170, 0.12);
+        }
+        .app-name {
+            color: #b0c0d0;
+            font-size: 13px;
+        }
+        .footer {
+            color: #506070;
+            font-size: 12px;
+        }
+        """
+        provider = Gtk.CssProvider()
+        provider.load_from_data(css)
+        Gtk.StyleContext.add_provider_for_screen(
+            Gdk.Screen.get_default(),
+            provider,
+            Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION
+        )
+    
+    def launch(self, cmd):
+        subprocess.Popen([cmd])
+        self.close()
+    
+    def on_key(self, widget, event):
+        if event.keyval == Gdk.KEY_Escape:
+            self.close()
+
+if __name__ == "__main__":
+    launcher = Launcher()
+    Gtk.main()
+PYTHON
+
+chmod +x /opt/specteros/ui/launcher.py
+
+# ============================================
+# 3. WELCOME SCREEN (Minimal, no fluff)
+# ============================================
+
+cat > /opt/specteros/ui/welcome.py << 'PYTHON'
+#!/usr/bin/env python3
+"""
+SpecterOS Welcome - First boot screen
+Clean, simple, gets out of your way
+"""
+
+import gi
+gi.require_version('Gtk', '3.0')
+from gi.repository import Gtk, Gdk
+import subprocess
+import os
+
+class Welcome(Gtk.Window):
+    def __init__(self):
+        super().__init__()
+        
+        self.set_default_size(700, 500)
+        self.set_position(Gtk.WindowPosition.CENTER)
+        
+        main = Gtk.Box(orientation=Gtk.Orientation.VERTICAL)
+        main.set_margin_start(50)
+        main.set_margin_end(50)
+        main.set_margin_top(40)
+        main.set_margin_bottom(40)
+        self.add(main)
+        
+        # Logo
+        logo = Gtk.Label(label="👻")
+        logo.set_markup("<span size='xx-large'>👻</span>")
+        main.pack_start(logo, False, False, 10)
+        
+        # Title
+        title = Gtk.Label(label="SpecterOS")
+        title.get_style_context().add_class("title")
+        main.pack_start(title, False, False, 5)
+        
+        # Subtitle
+        subtitle = Gtk.Label(label="Your Privacy. Our Mission.")
+        subtitle.get_style_context().add_class("subtitle")
+        main.pack_start(subtitle, False, False, 30)
+        
+        # Options
+        options = [
+            ("📦 Install to Disk", "Install SpecterOS permanently", self.install),
+            ("🔧 First Boot Setup", "Configure privacy settings", self.setup),
+            ("🚀 Start Using", "Go to desktop", self.start),
+        ]
+        
+        for title, desc, callback in options:
+            box = Gtk.EventBox()
+            inner = Gtk.Box(orientation=Gtk.Orientation.VERTICAL)
+            inner.set_margin_start(20)
+            inner.set_margin_end(20)
+            inner.set_margin_top(15)
+            inner.set_margin_bottom(15)
+            
+            t = Gtk.Label(label=title)
+            t.get_style_context().add_class("option-title")
+            inner.pack_start(t, False, False, 4)
+            
+            d = Gtk.Label(label=desc)
+            d.get_style_context().add_class("option-desc")
+            inner.pack_start(d, False, False, 0)
+            
+            box.add(inner)
+            box.connect("button-press-event", lambda w, e: callback())
+            box.get_style_context().add_class("option-box")
+            
+            main.pack_start(box, False, False, 8)
+        
+        # Skip checkbox
+        self.skip = Gtk.CheckButton(label="Don't show again")
+        self.skip.set_margin_top(20)
+        main.pack_start(self.skip, False, False, 0)
+        
+        self.apply_css()
+        self.show_all()
+    
+    def apply_css(self):
+        css = b"""
+        window {
+            background: #0c0c12;
+        }
+        .title {
+            font-size: 36px;
+            font-weight: 700;
+            color: #00c8aa;
+        }
+        .subtitle {
+            color: #607080;
+            font-size: 14px;
+        }
+        .option-box {
+            border: 1px solid rgba(0, 200, 170, 0.2);
+            border-radius: 8px;
+        }
+        .option-box:hover {
+            background: rgba(0, 200, 170, 0.08);
+            border-color: rgba(0, 200, 170, 0.4);
+        }
+        .option-title {
+            color: #d0e0f0;
+            font-size: 15px;
+            font-weight: 600;
+        }
+        .option-desc {
+            color: #708090;
+            font-size: 13px;
+        }
+        checkbutton {
+            color: #506070;
+        }
+        """
+        provider = Gtk.CssProvider()
+        provider.load_from_data(css)
+        Gtk.StyleContext.add_provider_for_screen(
+            Gdk.Screen.get_default(),
+            provider,
+            Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION
+        )
+    
+    def install(self):
+        subprocess.Popen(["calamares"])
+        self.close()
+    
+    def setup(self):
+        subprocess.Popen(["xfce4-settings-manager"])
+    
+    def start(self):
+        self.close()
+
+if __name__ == "__main__":
+    welcome = Welcome()
+    Gtk.main()
+PYTHON
+
+chmod +x /opt/specteros/ui/welcome.py
+
+# ============================================
+# 4. AUTOSTART CONFIGURATION
+# ============================================
+
+# Panel autostart
+cat > /etc/xdg/autostart/specteros-panel.desktop << 'EOF'
+[Desktop Entry]
+Name=SpecterOS Panel
+Exec=/opt/specteros/ui/panel.py
+Icon=preferences-desktop-panel
+Terminal=false
+Type=Application
+Categories=System;
+X-GNOME-Autostart-enabled=true
+EOF
+
+# Welcome screen (first boot only)
+cat > /etc/xdg/autostart/specteros-welcome.desktop << 'EOF'
+[Desktop Entry]
+Name=SpecterOS Welcome
+Exec=/opt/specteros/ui/welcome.py
+Icon=face-smile
+Terminal=false
+Type=Application
+Categories=System;
+X-GNOME-Autostart-enabled=true
+OnlyShowIn=GNOME;XFCE;
+EOF
+
+# Create first-boot flag
+cat > /etc/skel/.config/specteros/first-boot << 'EOF'
+true
+EOF
+
+# ============================================
+# 5. KEYBOARD SHORTCUTS
+# ============================================
+
+cat > /etc/skel/.config/xfce4/xfconf/xfce-perchannel-xml/xfce4-keyboard-shortcuts.xml << 'XML'
+<?xml version="1.0" encoding="UTF-8"?>
+<channel name="xfce4-keyboard-shortcuts" version="1.0">
+  <property name="commands" type="empty">
+    <property name="custom" type="empty">
+      <property name="&lt;Super&gt;space" type="string" value="/opt/specteros/ui/launcher.py"/>
+      <property name="&lt;Super&gt;Return" type="string" value="terminator"/>
+      <property name="&lt;Super&gt;e" type="string" value="thunar"/>
+      <property name="&lt;Super&gt;q" type="string" value="xfce4-close-window"/>
+      <property name="&lt;Control&gt;&lt;Alt&gt;t" type="string" value="terminator"/>
+      <property name="&lt;Control&gt;&lt;Alt&gt;l" type="string" value="xfce4-screensaver-command -l"/>
+      <property name="override" type="bool" value="true"/>
+    </property>
+  </property>
+</channel>
+XML
+
+# ============================================
+# 6. INSTALL REQUIRED PACKAGES
+# ============================================
+
+apt-get update
+apt-get install -y \
+    python3 \
+    python3-gi \
+    python3-gi-cairo \
+    python3-psutil \
+    gir1.2-gtk-3.0 \
+    wmctrl \
+    xdg-utils \
+    || true
+
+echo "SpecterOS Custom UI installed!"
+PYTHON
+
+chmod +x /opt/specteros/ui/panel.py
+chmod +x /opt/specteros/ui/launcher.py
+chmod +x /opt/specteros/ui/welcome.py
+
+echo "✓ SpecterOS Custom UI installed"
+echo "  - Custom panel (top bar)"
+echo "  - App launcher (Super+Space)"
+echo "  - Welcome screen"
+echo "  - Minimal, hand-crafted design"

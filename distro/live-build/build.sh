@@ -51,21 +51,21 @@ fi
 echo "[PACKAGES] Creating package list..."
 mkdir -p config/package-lists
 cat > config/package-lists/specteros.list.chroot << 'EOF'
-# XFCE Desktop
-task-xfce-desktop
+# XFCE Desktop (minimal)
+xfce4
+xfce4-terminal
+thunar
+mousepad
 lightdm
 lightdm-gtk-greeter
 
 # Applications
 firefox-esr
-terminator
-thunar
-mousepad
 pavucontrol
 network-manager
 network-manager-gnome
 
-# Utilities
+# System
 sudo
 curl
 wget
@@ -75,6 +75,8 @@ htop
 python3
 python3-gi
 python3-gi-cairo
+python3-psutil
+wmctrl
 
 # Firmware
 firmware-linux
@@ -88,9 +90,8 @@ grub-pc
 grub-efi-amd64
 partition-manager
 
-# Extra UI components
+# Whisker menu
 whiskermenu
-gir1.2-appindicator3-0.1
 EOF
 
 # Copy SpecterOS binaries for the hook
@@ -104,11 +105,20 @@ else
     echo "  Warning: No SpecterOS binaries found in $PROJECT_ROOT/target/release"
 fi
 
-# Copy hook
-echo "[HOOKS] Installing SpecterOS hook..."
+# Copy hooks
+echo "[HOOKS] Installing SpecterOS hooks..."
 mkdir -p config/hooks/live
+
+# Custom UI (hand-crafted, not AI slop)
+cp "$SCRIPT_DIR/config/hooks/live/specteros-custom-ui.hook.chroot" config/hooks/live/
+
+# SpecterOS binaries hook
 cp "$SCRIPT_DIR/config/hooks/live/specteros.hook.chroot" config/hooks/live/
-chmod +x config/hooks/live/specteros.hook.chroot
+
+# Calamares installer
+cp "$SCRIPT_DIR/config/hooks/live/specteros-calamares.hook.chroot" config/hooks/live/
+
+chmod +x config/hooks/live/*.hook.chroot
 
 # Clean previous build (optional - comment out for faster rebuilds)
 echo "[CLEAN] Cleaning previous build..."
