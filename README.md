@@ -65,12 +65,12 @@ docker run --rm -v $(pwd)/output:/output --privileged specteros-builder
 
 ### QEMU (Local)
 ```bash
-qemu-system-x86_64 -cdrom output/specteros-debian-*.iso -m 4G -boot d
+qemu-system-x86_64 -cdrom output/specteros-debian-*.iso -m 4096 -boot d
 ```
 
 ### QEMU + VNC (Remote)
 ```bash
-qemu-system-x86_64 -cdrom output/specteros-debian-*.iso -m 4G -boot d -vnc :0
+qemu-system-x86_64 -cdrom output/specteros-debian-*.iso -m 4096 -boot d -vnc :0
 # Connect VNC client to: localhost:5900
 ```
 
@@ -209,8 +209,8 @@ Apache 2.0 - SpecterOS Project
 
 ## 🔗 Links
 
-- Website: https://specteros.org
-- Docs: https://specteros.org/docs
+- Website: https://specter-os.web.app/
+- Docs: https://specter-os.web.app/docs/
 - GitHub: https://github.com/specteros/os
 - Issues: https://github.com/specteros/os/issues
 
