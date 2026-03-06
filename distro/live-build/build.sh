@@ -112,6 +112,9 @@ mkdir -p config/hooks/live
 # Custom UI (hand-crafted, not AI slop)
 cp "$SCRIPT_DIR/config/hooks/live/specteros-custom-ui.hook.chroot" config/hooks/live/
 
+# Hardened browser
+cp "$SCRIPT_DIR/config/hooks/live/specteros-browser.hook.chroot" config/hooks/live/
+
 # SpecterOS binaries hook
 cp "$SCRIPT_DIR/config/hooks/live/specteros.hook.chroot" config/hooks/live/
 

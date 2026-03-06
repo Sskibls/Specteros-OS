@@ -1,0 +1,544 @@
+#!/bin/bash
+# SpecterOS Browser Hardening
+# Firefox ESR with maximum privacy & security
+
+set -e
+
+# ============================================
+# 1. INSTALL FIREFOX + HARDENING TOOLS
+# ============================================
+
+apt-get update
+apt-get install -y \
+    firefox-esr \
+    tor \
+    torbrowser-launcher \
+    webext-ublock-origin \
+    webext-https-everywhere \
+    webext-privacy-badger \
+    || true
+
+# ============================================
+# 2. CREATE HARDENED FIREFOX PROFILE
+# ============================================
+
+FIREFOX_PROFILE="/etc/skel/.mozilla/firefox/specteros-default"
+mkdir -p "$FIREFOX_PROFILE"
+
+# Create user.js with hardened settings
+cat > "$FIREFOX_PROFILE/user.js" << 'FIREFOX'
+// SpecterOS Firefox Hardening Configuration
+// Based on arkenfox-user.js + custom tweaks
+
+// ============================================
+// PRIVACY
+// ============================================
+
+// Disable telemetry
+user_pref("datareporting.healthreport.uploadEnabled", false);
+user_pref("datareporting.healthreport.service.enabled", false);
+user_pref("datareporting.policy.dataSubmissionEnabled", false);
+user_pref("toolkit.telemetry.enabled", false);
+user_pref("toolkit.telemetry.server", "");
+user_pref("toolkit.telemetry.archive.enabled", false);
+user_pref("toolkit.telemetry.coverage.opt-out", true);
+user_pref("toolkit.coverage.opt-out", true);
+user_pref("toolkit.coverage.endpoint.base", "");
+user_pref("browser.newtabpage.activity-stream.feeds.telemetry", false);
+user_pref("browser.newtabpage.activity-stream.telemetry", false);
+
+// Disable crash reports
+user_pref("breakpad.reportURL", "");
+user_pref("browser.tabs.crashReporting.sendReport", false);
+user_pref("browser.crashReports.unsubmittedCheck.enabled", false);
+
+// Disable experiments
+user_pref("experiments.supported", false);
+user_pref("experiments.enabled", false);
+user_pref("experiments.manifest.uri", "");
+
+// Disable Pocket
+user_pref("extensions.pocket.enabled", false);
+user_pref("extensions.pocket.api", "");
+user_pref("extensions.pocket.oAuthConsumerKey", "");
+user_pref("extensions.pocket.site", "");
+
+// Disable Firefox Home
+user_pref("browser.newtabpage.enabled", false);
+user_pref("browser.newtabpage.activity-stream.enabled", false);
+user_pref("browser.newtabpage.activity-stream.showSearch", false);
+user_pref("browser.newtabpage.activity-stream.feeds.topsites", false);
+user_pref("browser.newtabpage.activity-stream.feeds.section.topstories", false);
+user_pref("browser.newtabpage.activity-stream.feeds.section.highlights", false);
+user_pref("browser.newtabpage.activity-stream.feeds.snippets", false);
+user_pref("browser.newtabpage.activity-stream.showSponsored", false);
+user_pref("browser.newtabpage.activity-stream.showSponsoredTopSites", false);
+
+// ============================================
+// SECURITY
+// ============================================
+
+// Disable JavaScript (optional - uncomment for maximum security)
+// user_pref("javascript.enabled", false);
+
+// Disable WebAssembly (optional - attack surface reduction)
+// user_pref("javascript.options.wasm", false);
+
+// Enable HTTPS-Only Mode
+user_pref("dom.security.https_only_mode", true);
+user_pref("dom.security.https_only_mode_ever_enabled", true);
+user_pref("dom.security.https_only_mode_send_http_background_request", false);
+
+// Disable mixed content
+user_pref("security.mixed_content.block_display_content", true);
+user_pref("security.mixed_content.upgrade_display_content", true);
+
+// Strict CSP
+user_pref("security.csp.enable", true);
+user_pref("security.csp.reportOnly.enabled", false);
+
+// Disable remote code execution features
+user_pref("network.auth.subresource-http-auth-allow", 1);
+user_pref("network.http.redirection-limit", 3);
+
+// Disable service workers (tracking vector)
+user_pref("dom.serviceWorkers.enabled", false);
+
+// Disable WebRTC (IP leak prevention)
+user_pref("media.peerconnection.enabled", false);
+user_pref("media.peerconnection.ice.default_address_only", true);
+user_pref("media.peerconnection.ice.no_host", true);
+
+// Disable WebGL (fingerprinting + security)
+user_pref("webgl.disabled", true);
+user_pref("webgl.enable-webgl2", false);
+
+// Disable battery API (fingerprinting)
+user_pref("dom.battery.enabled", false);
+
+// Disable device orientation API
+user_pref("device.sensors.enabled", false);
+
+// Disable geolocation
+user_pref("geo.enabled", false);
+user_pref("geo.provider.use_corelocation", false);
+user_pref("geo.provider.use_gpsd", false);
+user_pref("geo.provider.use_geoclue", false);
+
+// ============================================
+// FINGERPRINTING PROTECTION
+// ============================================
+
+// Resist fingerprinting
+user_pref("privacy.resistFingerprinting", true);
+user_pref("privacy.resistFingerprinting.letterboxing", true);
+user_pref("privacy.resistFingerprinting.reduceTimer.precision", true);
+user_pref("privacy.resistFingerprinting.reduceTimer.random", true);
+
+// Spoof user agent
+user_pref("general.useragent.override", "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:109.0) Gecko/20100101 Firefox/115.0");
+
+// Disable canvas fingerprinting
+user_pref("canvas.capturestream.enabled", false);
+user_pref("canvas.toBlob.enabled", false);
+
+// Disable audio context fingerprinting
+user_pref("audiocontext.enabled", false);
+
+// Disable font fingerprinting
+user_pref("browser.display.use_document_fonts", 0);
+
+// ============================================
+// NETWORK
+// ============================================
+
+// Disable DNS prefetching
+user_pref("network.dns.disablePrefetch", true);
+user_pref("network.dns.disablePrefetchFromHTTPS", true);
+user_pref("network.dns.echsconfig.enabled", false);
+
+// Disable link prefetching
+user_pref("network.prefetch-next", false);
+
+// Disable predictor/preload
+user_pref("network.predictor.enabled", false);
+user_pref("network.predictor.enable-prefetch", false);
+
+// Disable speculative connections
+user_pref("network.http.speculative-parallel-limit", 0);
+user_pref("network.http.rcwn.enabled", false);
+
+// Disable captive portal detection
+user_pref("captivedetect.canonicalURL", "");
+user_pref("network.captive-portal-service.enabled", false);
+
+// Disable network connectivity checks
+user_pref("network.connectivity-service.enabled", false);
+
+// ============================================
+// COOKIES & STORAGE
+// ============================================
+
+// Delete cookies on close
+user_pref("network.cookie.lifetimePolicy", 2);
+user_pref("network.cookie.lifetime.days", 0);
+
+// Block third-party cookies
+user_pref("network.cookie.cookieBehavior", 1);
+user_pref("network.cookie.thirdparty.sessionOnly", true);
+
+// Clear site data on close
+user_pref("privacy.sanitize.sanitizeOnShutdown", true);
+user_pref("privacy.clearOnShutdown.cache", true);
+user_pref("privacy.clearOnShutdown.cookies", true);
+user_pref("privacy.clearOnShutdown.downloads", true);
+user_pref("privacy.clearOnShutdown.formdata", true);
+user_pref("privacy.clearOnShutdown.history", true);
+user_pref("privacy.clearOnShutdown.offlineApps", true);
+user_pref("privacy.clearOnShutdown.sessions", true);
+user_pref("privacy.clearOnShutdown.siteSettings", true);
+
+// Disable DOM storage
+user_pref("dom.storage.enabled", false);
+
+// ============================================
+// PASSWORDS & FORMS
+// ============================================
+
+// Disable password manager
+user_pref("signon.rememberSignons", false);
+user_pref("signon.autofillForms", false);
+user_pref("signon.formlessCapture.enabled", false);
+
+// Disable form autofill
+user_pref("browser.formfill.enable", false);
+
+// Disable address autofill
+user_pref("extensions.formautofill.addresses.enabled", false);
+user_pref("extensions.formautofill.creditCards.enabled", false);
+
+// ============================================
+// EXTENSIONS
+// ============================================
+
+// Disable extension updates (manual control)
+user_pref("extensions.update.enabled", false);
+user_pref("extensions.update.autoUpdateDefault", false);
+
+// Require signature for extensions
+user_pref("xpinstall.signatures.required", true);
+
+// Disable extension recommendations
+user_pref("extensions.getAddons.showPane", false);
+user_pref("extensions.htmlaboutaddons.recommendations.enabled", false);
+user_pref("extensions.discovery.enabled", false);
+
+// ============================================
+// UI & BEHAVIOR
+// ============================================
+
+// Disable smooth scrolling (fingerprinting)
+user_pref("general.smoothScroll", false);
+
+// Disable reader mode
+user_pref("browser.reader.detectedFirstArticle", true);
+
+// Disable screenshots
+user_pref("extensions.screenshots.disabled", true);
+user_pref("extensions.screenshots.upload-disabled", true);
+
+// Disable studies
+user_pref("app.shield.optoutstudies.enabled", false);
+user_pref("app.normandy.enabled", false);
+user_pref("app.normandy.api_url", "");
+
+// Disable default browser check
+user_pref("browser.shell.checkDefaultBrowser", false);
+user_pref("browser.shell.skipDefaultBrowserCheckOnFirstRun", true);
+
+// Disable welcome notification
+user_pref("browser.startup.homepage_override.mstone", "ignore");
+
+// ============================================
+// DISK AVOIDANCE
+// ============================================
+
+// Disable disk cache
+user_pref("browser.cache.disk.enable", false);
+user_pref("browser.cache.memory.enable", true);
+user_pref("browser.cache.memory.capacity", 256000);
+
+// Disable download history
+user_pref("browser.download.manager.addToRecentDocs", false);
+
+// Disable session restore
+user_pref("browser.sessionstore.enabled", false);
+user_pref("browser.sessionstore.privacy_level", 2);
+
+// ============================================
+// SAFE BROWSING (optional - sends data to Google)
+// ============================================
+
+// Disable safe browsing (privacy tradeoff)
+user_pref("browser.safebrowsing.malware.enabled", false);
+user_pref("browser.safebrowsing.phishing.enabled", false);
+user_pref("browser.safebrowsing.downloads.enabled", false);
+user_pref("browser.safebrowsing.blockedURIs.enabled", false);
+user_pref("browser.safebrowsing.provider.google4.enabled", false);
+user_pref("browser.safebrowsing.provider.google.enabled", false);
+
+// ============================================
+// CUSTOM SPECTEROS START PAGE
+// ============================================
+
+user_pref("browser.startup.homepage", "about:blank");
+user_pref("browser.newtab.url", "about:blank");
+user_pref("browser.newtabpage.activity-stream.default.sites", "");
+FIREFOX
+
+# ============================================
+# 3. CREATE SPECTEROS START PAGE
+# ============================================
+
+mkdir -p /usr/share/specteros/browser
+cat > /usr/share/specteros/browser/start.html << 'HTML'
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SpecterOS Browser</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            background: #0a0a0f;
+            color: #c0c0d0;
+            font-family: 'JetBrains Mono', 'Consolas', monospace;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .container {
+            text-align: center;
+            max-width: 600px;
+            padding: 40px;
+        }
+        
+        .logo {
+            font-size: 64px;
+            margin-bottom: 20px;
+        }
+        
+        h1 {
+            font-size: 28px;
+            font-weight: 700;
+            color: #00c8aa;
+            margin-bottom: 10px;
+            letter-spacing: 2px;
+        }
+        
+        .status {
+            color: #607080;
+            font-size: 14px;
+            margin-bottom: 40px;
+        }
+        
+        .security-badge {
+            display: inline-block;
+            background: rgba(0, 200, 170, 0.12);
+            color: #00c8aa;
+            padding: 8px 16px;
+            border-radius: 6px;
+            font-size: 13px;
+            margin: 5px;
+            border: 1px solid rgba(0, 200, 170, 0.25);
+        }
+        
+        .links {
+            margin-top: 40px;
+        }
+        
+        .links a {
+            display: inline-block;
+            color: #8090a0;
+            text-decoration: none;
+            padding: 10px 20px;
+            margin: 5px;
+            border: 1px solid rgba(128, 144, 160, 0.3);
+            border-radius: 6px;
+            font-size: 13px;
+            transition: all 0.2s;
+        }
+        
+        .links a:hover {
+            background: rgba(0, 200, 170, 0.1);
+            border-color: #00c8aa;
+            color: #00c8aa;
+        }
+        
+        .warning {
+            margin-top: 50px;
+            padding: 20px;
+            background: rgba(255, 68, 102, 0.1);
+            border: 1px solid rgba(255, 68, 102, 0.3);
+            border-radius: 8px;
+            font-size: 12px;
+            color: #ff6688;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="logo">👻</div>
+        <h1>SPECTEROS BROWSER</h1>
+        <p class="status">Hardened Firefox ESR • Maximum Privacy</p>
+        
+        <div class="badges">
+            <span class="security-badge">🔒 No Telemetry</span>
+            <span class="security-badge">🚫 No WebRTC</span>
+            <span class="security-badge">🎭 Anti-Fingerprinting</span>
+            <span class="security-badge">🍪 Auto-Clear Cookies</span>
+            <span class="security-badge">🔐 HTTPS-Only</span>
+        </div>
+        
+        <div class="links">
+            <a href="https://duckduckgo.com">🔍 DuckDuckGo</a>
+            <a href="https://startpage.com">👁️ Startpage</a>
+            <a href="https://github.com/Sskibls/Specter-OS">💻 GitHub</a>
+            <a href="https://specter-os.web.app">🌐 Website</a>
+        </div>
+        
+        <div class="warning">
+            ⚠️ <strong>Security Notice:</strong> JavaScript is enabled. For maximum security, 
+            disable JS in about:config or use Tor Browser for sensitive activities.
+        </div>
+    </div>
+</body>
+</html>
+HTML
+
+# ============================================
+# 4. CREATE DESKTOP ENTRY
+# ============================================
+
+cat > /usr/share/applications/specteros-browser.desktop << 'EOF'
+[Desktop Entry]
+Name=SpecterOS Browser
+Comment=Hardened Firefox ESR with maximum privacy
+Exec=firefox-esr --profile /home/%USER/.mozilla/firefox/specteros-default
+Icon=firefox-esr
+Terminal=false
+Type=Application
+Categories=Network;WebBrowser;
+Keywords=privacy;security;browser;web;
+EOF
+
+# ============================================
+# 5. CREATE TOR BROWSER LAUNCHER
+# ============================================
+
+cat > /usr/share/applications/tor-browser.desktop << 'EOF'
+[Desktop Entry]
+Name=Tor Browser
+Comment=Anonymous browsing with Tor network
+Exec=torbrowser-launcher
+Icon=tor-browser
+Terminal=false
+Type=Application
+Categories=Network;WebBrowser;
+Keywords=tor;anonymity;privacy;onion;
+EOF
+
+# ============================================
+# 6. CREATE BROWSER PROFILES MANAGER
+# ============================================
+
+cat > /opt/specteros/browser/profiles.sh << 'SCRIPT'
+#!/bin/bash
+# SpecterOS Browser Profile Manager
+
+PROFILE_DIR="$HOME/.mozilla/firefox"
+SPECTEROS_PROFILE="$PROFILE_DIR/specteros-default"
+
+case "$1" in
+    "create")
+        if [ ! -d "$SPECTEROS_PROFILE" ]; then
+            mkdir -p "$SPECTEROS_PROFILE"
+            cp /etc/skel/.mozilla/firefox/specteros-default/user.js "$SPECTEROS_PROFILE/"
+            echo "profile.default=$SPECTEROS_PROFILE" > "$PROFILE_DIR/profiles.ini"
+            echo "✓ SpecterOS profile created"
+        else
+            echo "✓ Profile already exists"
+        fi
+        ;;
+    "reset")
+        rm -rf "$SPECTEROS_PROFILE"
+        mkdir -p "$SPECTEROS_PROFILE"
+        cp /etc/skel/.mozilla/firefox/specteros-default/user.js "$SPECTEROS_PROFILE/"
+        echo "✓ Profile reset"
+        ;;
+    "backup")
+        tar -czf "$HOME/specteros-browser-backup-$(date +%Y%m%d).tar.gz" "$SPECTEROS_PROFILE"
+        echo "✓ Backup created"
+        ;;
+    *)
+        echo "Usage: $0 {create|reset|backup}"
+        exit 1
+        ;;
+esac
+SCRIPT
+
+chmod +x /opt/specteros/browser/profiles.sh
+
+# ============================================
+# 7. CREATE FIRST-RUN SCRIPT
+# ============================================
+
+cat > /opt/specteros/browser/first-run.sh << 'SCRIPT'
+#!/bin/bash
+# Create SpecterOS Firefox profile on first run
+
+PROFILE_DIR="$HOME/.mozilla/firefox"
+SPECTEROS_PROFILE="$PROFILE_DIR/specteros-default"
+
+if [ ! -d "$SPECTEROS_PROFILE" ]; then
+    mkdir -p "$SPECTEROS_PROFILE"
+    cp /etc/skel/.mozilla/firefox/specteros-default/user.js "$SPECTEROS_PROFILE/"
+    echo "profile.default=$SPECTEROS_PROFILE" > "$PROFILE_DIR/profiles.ini"
+fi
+
+# Launch Firefox
+firefox-esr --profile "$SPECTEROS_PROFILE" "$@"
+SCRIPT
+
+chmod +x /opt/specteros/browser/first-run.sh
+
+# Update desktop entry to use first-run script
+cat > /usr/share/applications/specteros-browser.desktop << 'EOF'
+[Desktop Entry]
+Name=SpecterOS Browser
+Comment=Hardened Firefox ESR with maximum privacy
+Exec=/opt/specteros/browser/first-run.sh
+Icon=firefox-esr
+Terminal=false
+Type=Application
+Categories=Network;WebBrowser;
+Keywords=privacy;security;browser;web;
+EOF
+
+echo "✓ SpecterOS Browser installed and hardened"
+echo "  - Firefox ESR with maximum privacy"
+echo "  - All telemetry disabled"
+echo "  - Anti-fingerprinting enabled"
+echo "  - Auto-clear cookies on close"
+echo "  - HTTPS-Only mode"
+echo "  - WebRTC disabled"
+echo "  - Custom start page"
