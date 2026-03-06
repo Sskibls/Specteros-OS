@@ -1,4 +1,4 @@
-// PhantomKernel Network Monitor
+// Specteros Network Monitor
 // Real-time network traffic visualization and leak detection
 
 use gtk::prelude::*;
@@ -18,7 +18,10 @@ impl NetworkMonitor {
             .orientation(Orientation::Vertical)
             .css_name("network-monitor")
             .spacing(12)
-            .margin_all(12)
+            .margin_top(12)
+            .margin_bottom(12)
+            .margin_start(12)
+            .margin_end(12)
             .build();
 
         // Status header
@@ -103,10 +106,10 @@ impl NetworkMonitor {
         let total = upload + download;
         let fraction = (total / 100.0).min(1.0);
         self.traffic_bar.set_fraction(fraction);
-        self.traffic_bar.set_text(&format!(
+        self.traffic_bar.set_text(Some(&format!(
             "↑ {:.1} KB/s  ↓ {:.1} KB/s",
             upload, download
-        ));
+        )));
     }
 
     /// Set current route
@@ -136,7 +139,7 @@ impl NetworkMonitor {
     }
 
     pub fn widget(&self) -> &gtk::Widget {
-        &self.container.upcast()
+        self.container.upcast_ref()
     }
 }
 
@@ -176,7 +179,7 @@ impl ShardNetworkStatus {
     }
 
     pub fn widget(&self) -> &gtk::Widget {
-        &self.container.upcast()
+        self.container.upcast_ref()
     }
 }
 
@@ -198,7 +201,7 @@ impl LeakTestResults {
 
     pub fn show_results(&self, results: LeakTestReport) {
         // Display leak test results
-        let status = if results.all_clear {
+        let _status = if results.all_clear {
             "✓ All tests passed - No leaks detected"
         } else {
             "⚠ Potential leaks detected"
@@ -206,7 +209,7 @@ impl LeakTestResults {
     }
 
     pub fn widget(&self) -> &gtk::Widget {
-        &self.container.upcast()
+        self.container.upcast_ref()
     }
 }
 

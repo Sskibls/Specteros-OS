@@ -1,8 +1,8 @@
-// PhantomKernel Desktop Top Panel
+// Specteros Desktop Top Panel
 // System status, shard indicator, and quick controls
 
 use gtk::prelude::*;
-use gtk::{Box, Button, Label, Orientation, Revealer};
+use gtk::{Box, Button, Label, Orientation, Widget};
 
 pub struct TopPanel {
     container: Box,
@@ -49,10 +49,10 @@ impl TopPanel {
             .build();
 
         // Add widgets to panel
-        container.pack_start(&shard_label, false, false, 0);
-        container.pack_start(&network_indicator, false, false, 0);
-        container.pack_start(&privacy_status, false, false, 0);
-        container.pack_end(&panic_button, false, false, 0);
+        container.append(&shard_label);
+        container.append(&network_indicator);
+        container.append(&privacy_status);
+        container.append(&panic_button);
 
         Self {
             container,
@@ -101,7 +101,7 @@ impl TopPanel {
 
     /// Get the panel widget
     pub fn widget(&self) -> &Widget {
-        &self.container.upcast()
+        self.container.upcast_ref()
     }
 
     /// Show privacy warning
@@ -127,7 +127,7 @@ pub enum PrivacyStatus {
     Compromised,
 }
 
-/// System tray for PhantomKernel services
+/// System tray for Specteros services
 pub struct SystemTray {
     container: Box,
 }
@@ -150,10 +150,10 @@ impl SystemTray {
             .label(&format!("{} {}", icon, name))
             .tooltip_text(&format!("{}: {}", name, if active { "Active" } else { "Inactive" }))
             .build();
-        self.container.pack_start(&label, false, false, 0);
+        self.container.append(&label);
     }
 
     pub fn widget(&self) -> &Widget {
-        &self.container.upcast()
+        self.container.upcast_ref()
     }
 }

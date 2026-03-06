@@ -1,0 +1,45 @@
+syntax = "proto3";
+
+package specteros.v1;
+
+service SpecterosNetworkService {
+  rpc ApplyRouteProfile(ApplyRouteProfileRequest) returns (ApplyRouteProfileResponse);
+  rpc SetKillSwitch(SetKillSwitchRequest) returns (SetKillSwitchResponse);
+  rpc RunLeakCheck(RunLeakCheckRequest) returns (RunLeakCheckResponse);
+  rpc GetRouteState(GetRouteStateRequest) returns (GetRouteStateResponse);
+}
+
+message ApplyRouteProfileRequest {
+  string shard = 1;
+  string profile = 2;
+}
+
+message ApplyRouteProfileResponse {
+  bool applied = 1;
+}
+
+message SetKillSwitchRequest {
+  bool enabled = 1;
+}
+
+message SetKillSwitchResponse {
+  bool applied = 1;
+}
+
+message RunLeakCheckRequest {
+  string shard = 1;
+}
+
+message RunLeakCheckResponse {
+  bool clean = 1;
+  string summary = 2;
+}
+
+message GetRouteStateRequest {
+  string shard = 1;
+}
+
+message GetRouteStateResponse {
+  string route_state = 1;
+}
+

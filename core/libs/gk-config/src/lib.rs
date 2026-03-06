@@ -9,7 +9,7 @@ use serde::{Deserialize, Serialize};
 
 #[derive(Debug, Clone, Serialize, Deserialize, JsonSchema)]
 #[serde(default)]
-pub struct GhostkernelConfig {
+pub struct SpecterosConfig {
     pub schema_version: u32,
     pub core: CoreConfig,
     pub security: SecurityConfig,
@@ -22,7 +22,7 @@ pub struct GhostkernelConfig {
     pub edition: EditionConfig,
 }
 
-impl Default for GhostkernelConfig {
+impl Default for SpecterosConfig {
     fn default() -> Self {
         Self {
             schema_version: 1,
@@ -48,7 +48,7 @@ pub struct CoreConfig {
 impl Default for CoreConfig {
     fn default() -> Self {
         Self {
-            data_dir: "/var/lib/phantomkernel".to_string(),
+            data_dir: "/var/lib/specteros".to_string(),
         }
     }
 }
@@ -193,18 +193,18 @@ impl Default for FedoraEditionConfig {
 
 pub fn default_layer_paths() -> Vec<PathBuf> {
     let mut paths = vec![
-        PathBuf::from("/usr/lib/phantomkernel/default.toml"),
-        PathBuf::from("/usr/lib/phantomkernel/edition.toml"),
-        PathBuf::from("/etc/phantomkernel/config.toml"),
+        PathBuf::from("/usr/lib/specteros/default.toml"),
+        PathBuf::from("/usr/lib/specteros/edition.toml"),
+        PathBuf::from("/etc/specteros/config.toml"),
     ];
 
-    paths.extend(config_dir_layers("/etc/phantomkernel/config.d"));
-    paths.push(PathBuf::from("/run/phantomkernel/override.toml"));
+    paths.extend(config_dir_layers("/etc/specteros/config.d"));
+    paths.push(PathBuf::from("/run/specteros/override.toml"));
 
     paths
 }
 
-pub fn load_layered(paths: &[PathBuf]) -> Result<GhostkernelConfig> {
+pub fn load_layered(paths: &[PathBuf]) -> Result<SpecterosConfig> {
     let mut merged = toml::Value::Table(toml::map::Map::new());
 
     for path in paths {
@@ -220,18 +220,18 @@ pub fn load_layered(paths: &[PathBuf]) -> Result<GhostkernelConfig> {
         .map(|table| table.is_empty())
         .unwrap_or(true)
     {
-        return Ok(GhostkernelConfig::default());
+        return Ok(SpecterosConfig::default());
     }
 
     let cfg = merged
         .try_into()
-        .context("failed to deserialize merged PhantomKernel config")?;
+        .context("failed to deserialize merged Specteros config")?;
 
     Ok(cfg)
 }
 
 pub fn export_schema_value() -> Result<serde_json::Value> {
-    let schema = schema_for!(GhostkernelConfig);
+    let schema = schema_for!(SpecterosConfig);
     let value = serde_json::to_value(schema)?;
     Ok(value)
 }
@@ -246,17 +246,17 @@ pub struct RuntimePaths {
 impl RuntimePaths {
     pub fn system_defaults() -> Self {
         Self {
-            config_dir: PathBuf::from("/etc/phantomkernel"),
-            data_dir: PathBuf::from("/var/lib/phantomkernel"),
-            log_dir: PathBuf::from("/var/log/phantomkernel"),
+            config_dir: PathBuf::from("/etc/specteros"),
+            data_dir: PathBuf::from("/var/lib/specteros"),
+            log_dir: PathBuf::from("/var/log/specteros"),
         }
     }
 
     pub fn from_root(root: &Path) -> Self {
         Self {
-            config_dir: root.join("etc/phantomkernel"),
-            data_dir: root.join("var/lib/phantomkernel"),
-            log_dir: root.join("var/log/phantomkernel"),
+            config_dir: root.join("etc/specteros"),
+            data_dir: root.join("var/lib/specteros"),
+            log_dir: root.join("var/log/specteros"),
         }
     }
 }
@@ -404,7 +404,7 @@ mod tests {
             r#"
 schema_version = 1
 [core]
-data_dir = "/var/lib/phantomkernel"
+data_dir = "/var/lib/specteros"
 [security]
 deny_by_default = true
 "#,
@@ -415,13 +415,13 @@ deny_by_default = true
             &override_file,
             r#"
 [core]
-data_dir = "/tmp/phantomkernel"
+data_dir = "/tmp/specteros"
 "#,
         )
         .expect("override layer should be written");
 
         let loaded = load_layered(&[base, override_file]).expect("config should load");
-        assert_eq!(loaded.core.data_dir, "/tmp/phantomkernel");
+        assert_eq!(loaded.core.data_dir, "/tmp/specteros");
         assert!(loaded.security.deny_by_default);
     }
 
@@ -436,7 +436,7 @@ data_dir = "/tmp/phantomkernel"
         let paths = default_layer_paths();
         assert!(paths
             .iter()
-            .any(|path| path == &PathBuf::from("/run/phantomkernel/override.toml")));
+            .any(|path| path == &PathBuf::from("/run/specteros/override.toml")));
     }
 
     #[test]

@@ -499,192 +499,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "ghostkernel-airlockd"
-version = "0.1.0"
-dependencies = [
- "gk-audit",
- "gk-config",
- "gk-ipc",
- "gk-metadata-sanitizer",
- "gk-persistence",
- "serde",
- "serde_json",
- "tempfile",
-]
-
-[[package]]
-name = "ghostkernel-auditd"
-version = "0.1.0"
-dependencies = [
- "gk-audit",
- "gk-config",
- "gk-ipc",
- "serde",
- "serde_json",
- "tempfile",
-]
-
-[[package]]
-name = "ghostkernel-debian-backend"
-version = "0.1.0"
-dependencies = [
- "anyhow",
- "gk-platform-api",
-]
-
-[[package]]
-name = "ghostkernel-desktop"
-version = "0.1.0"
-dependencies = [
- "anyhow",
- "gdk4",
- "gio",
- "gk-ipc",
- "gk-policy",
- "gtk4",
- "serde",
- "serde_json",
- "tokio",
- "wayland-client",
- "wayland-protocols",
-]
-
-[[package]]
-name = "ghostkernel-fedora-backend"
-version = "0.1.0"
-dependencies = [
- "anyhow",
- "gk-platform-api",
-]
-
-[[package]]
-name = "ghostkernel-guardian"
-version = "0.1.0"
-dependencies = [
- "ghostkernel-netd",
- "ghostkernel-shardd",
- "gk-audit",
- "thiserror",
-]
-
-[[package]]
-name = "ghostkernel-init"
-version = "0.1.0"
-
-[[package]]
-name = "ghostkernel-netd"
-version = "0.1.0"
-dependencies = [
- "gk-audit",
- "gk-config",
- "gk-ipc",
- "gk-persistence",
- "gk-privexec",
- "serde",
- "serde_json",
- "tempfile",
-]
-
-[[package]]
-name = "ghostkernel-policyd"
-version = "0.1.0"
-dependencies = [
- "gk-audit",
- "gk-config",
- "gk-crypto",
- "gk-ipc",
- "gk-persistence",
- "serde",
- "serde_json",
- "tempfile",
-]
-
-[[package]]
-name = "ghostkernel-shardd"
-version = "0.1.0"
-dependencies = [
- "gk-audit",
- "gk-config",
- "gk-ipc",
- "gk-persistence",
- "serde",
- "serde_json",
- "tempfile",
-]
-
-[[package]]
-name = "ghostkernel-shell"
-version = "0.1.0"
-dependencies = [
- "anyhow",
- "gk-audit",
- "gk-ipc",
- "gk-policy",
- "serde",
- "serde_json",
-]
-
-[[package]]
-name = "ghostkernel-test-harness"
-version = "0.1.0"
-dependencies = [
- "anyhow",
- "ghostkernel-airlockd",
- "ghostkernel-auditd",
- "ghostkernel-guardian",
- "ghostkernel-netd",
- "ghostkernel-policyd",
- "ghostkernel-shardd",
- "gk-audit",
- "gk-config",
- "gk-crypto",
- "gk-persistence",
- "gk-policy",
- "serde",
- "serde_json",
- "tempfile",
-]
-
-[[package]]
-name = "ghostkernel-tui"
-version = "0.1.0"
-dependencies = [
- "anyhow",
- "crossterm",
- "gk-audit",
- "gk-ipc",
- "gk-policy",
- "ratatui",
- "serde",
- "serde_json",
- "tokio",
-]
-
-[[package]]
-name = "ghostkernel-updated"
-version = "0.1.0"
-dependencies = [
- "gk-audit",
- "gk-crypto",
- "serde",
- "serde_json",
- "sha2",
- "tempfile",
- "thiserror",
-]
-
-[[package]]
-name = "ghostkernel-vnc"
-version = "0.1.0"
-dependencies = [
- "axum",
- "futures-util",
- "serde_json",
- "tokio",
- "tower-http",
-]
-
-[[package]]
 name = "gio"
 version = "0.19.8"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -1681,6 +1495,192 @@ dependencies = [
 ]
 
 [[package]]
+name = "specteros-airlockd"
+version = "0.1.0"
+dependencies = [
+ "gk-audit",
+ "gk-config",
+ "gk-ipc",
+ "gk-metadata-sanitizer",
+ "gk-persistence",
+ "serde",
+ "serde_json",
+ "tempfile",
+]
+
+[[package]]
+name = "specteros-auditd"
+version = "0.1.0"
+dependencies = [
+ "gk-audit",
+ "gk-config",
+ "gk-ipc",
+ "serde",
+ "serde_json",
+ "tempfile",
+]
+
+[[package]]
+name = "specteros-debian-backend"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "gk-platform-api",
+]
+
+[[package]]
+name = "specteros-desktop"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "gdk4",
+ "gio",
+ "gk-ipc",
+ "gk-policy",
+ "gtk4",
+ "serde",
+ "serde_json",
+ "tokio",
+ "wayland-client",
+ "wayland-protocols",
+]
+
+[[package]]
+name = "specteros-fedora-backend"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "gk-platform-api",
+]
+
+[[package]]
+name = "specteros-guardian"
+version = "0.1.0"
+dependencies = [
+ "gk-audit",
+ "specteros-netd",
+ "specteros-shardd",
+ "thiserror",
+]
+
+[[package]]
+name = "specteros-init"
+version = "0.1.0"
+
+[[package]]
+name = "specteros-netd"
+version = "0.1.0"
+dependencies = [
+ "gk-audit",
+ "gk-config",
+ "gk-ipc",
+ "gk-persistence",
+ "gk-privexec",
+ "serde",
+ "serde_json",
+ "tempfile",
+]
+
+[[package]]
+name = "specteros-policyd"
+version = "0.1.0"
+dependencies = [
+ "gk-audit",
+ "gk-config",
+ "gk-crypto",
+ "gk-ipc",
+ "gk-persistence",
+ "serde",
+ "serde_json",
+ "tempfile",
+]
+
+[[package]]
+name = "specteros-shardd"
+version = "0.1.0"
+dependencies = [
+ "gk-audit",
+ "gk-config",
+ "gk-ipc",
+ "gk-persistence",
+ "serde",
+ "serde_json",
+ "tempfile",
+]
+
+[[package]]
+name = "specteros-shell"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "gk-audit",
+ "gk-ipc",
+ "gk-policy",
+ "serde",
+ "serde_json",
+]
+
+[[package]]
+name = "specteros-test-harness"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "gk-audit",
+ "gk-config",
+ "gk-crypto",
+ "gk-persistence",
+ "gk-policy",
+ "serde",
+ "serde_json",
+ "specteros-airlockd",
+ "specteros-auditd",
+ "specteros-guardian",
+ "specteros-netd",
+ "specteros-policyd",
+ "specteros-shardd",
+ "tempfile",
+]
+
+[[package]]
+name = "specteros-tui"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "crossterm",
+ "gk-audit",
+ "gk-ipc",
+ "gk-policy",
+ "ratatui",
+ "serde",
+ "serde_json",
+ "tokio",
+]
+
+[[package]]
+name = "specteros-updated"
+version = "0.1.0"
+dependencies = [
+ "gk-audit",
+ "gk-crypto",
+ "serde",
+ "serde_json",
+ "sha2",
+ "tempfile",
+ "thiserror",
+]
+
+[[package]]
+name = "specteros-vnc"
+version = "0.1.0"
+dependencies = [
+ "axum",
+ "futures-util",
+ "serde_json",
+ "tokio",
+ "tower-http",
+]
+
+[[package]]
 name = "stability"
 version = "0.2.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -2440,9 +2440,9 @@ checksum = "d6bbff5f0aada427a1e5a6da5f1f98158182f26556f345ac9e04d36d0ebed650"
 
 [[package]]
 name = "winnow"
-version = "0.7.14"
+version = "0.7.15"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "5a5364e9d77fcdeeaa6062ced926ee3381faa2ee02d3eb83a5c27a8825540829"
+checksum = "df79d97927682d2fd8adb29682d1140b343be4ac0f08fd68b7765d9c059d3945"
 dependencies = [
  "memchr",
 ]

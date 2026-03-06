@@ -1,0 +1,46 @@
+syntax = "proto3";
+
+package specteros.v1;
+
+service SpecterosAirlockService {
+  rpc OpenTransferSession(OpenTransferSessionRequest) returns (OpenTransferSessionResponse);
+  rpc ScanArtifact(ScanArtifactRequest) returns (ScanArtifactResponse);
+  rpc ApproveTransfer(ApproveTransferRequest) returns (ApproveTransferResponse);
+  rpc CommitTransfer(CommitTransferRequest) returns (CommitTransferResponse);
+}
+
+message OpenTransferSessionRequest {
+  string source_shard = 1;
+  string target_shard = 2;
+}
+
+message OpenTransferSessionResponse {
+  string session_id = 1;
+}
+
+message ScanArtifactRequest {
+  string session_id = 1;
+  string artifact_path = 2;
+}
+
+message ScanArtifactResponse {
+  bool safe = 1;
+  string report = 2;
+}
+
+message ApproveTransferRequest {
+  string session_id = 1;
+}
+
+message ApproveTransferResponse {
+  bool approved = 1;
+}
+
+message CommitTransferRequest {
+  string session_id = 1;
+}
+
+message CommitTransferResponse {
+  bool committed = 1;
+}
+

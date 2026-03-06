@@ -1,5 +1,5 @@
 [package]
-name = "ghostkernel-debian-backend"
+name = "specteros-debian-backend"
 version = "0.1.0"
 edition = "2021"
 

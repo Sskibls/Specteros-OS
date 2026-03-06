@@ -441,8 +441,8 @@ parted -s "$TARGET_DISK" set 1 boot on
 
 # Create filesystems
 log_info "Creating filesystems..."
-mkfs.ext4 -L GHOSTKERNEL_BOOT "${TARGET_DISK}1"
-mkfs.ext4 -L GHOSTKERNEL_ROOT "${TARGET_DISK}2"
+mkfs.ext4 -L SPECTEROS_BOOT "${TARGET_DISK}1"
+mkfs.ext4 -L SPECTEROS_ROOT "${TARGET_DISK}2"
 
 # Mount and extract
 log_info "Installing system..."

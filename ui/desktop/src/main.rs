@@ -1,4 +1,4 @@
-// PhantomKernel Desktop Environment
+// Specteros Desktop Environment
 // Secure, privacy-focused Wayland desktop shell
 
 mod shell;
@@ -8,18 +8,17 @@ mod apps;
 
 use gtk::prelude::*;
 use gtk::{Application, ApplicationWindow};
-use gdk4::Display;
 
 use shell::DesktopShell;
 use panel::TopPanel;
 
-pub struct PhantomKernelDesktop {
+pub struct SpecterosDesktop {
     app: Application,
     shell: DesktopShell,
     panel: TopPanel,
 }
 
-impl PhantomKernelDesktop {
+impl SpecterosDesktop {
     pub fn new(application_id: &str) -> Self {
         let app = Application::builder()
             .application_id(application_id)
@@ -32,7 +31,7 @@ impl PhantomKernelDesktop {
         }
     }
 
-    pub fn run(&self) -> glib::ExitCode {
+    pub fn run(&self) -> gtk::glib::ExitCode {
         self.app.connect_startup(|_| {
             // Load secure defaults
             apply_security_hardening();
@@ -42,7 +41,7 @@ impl PhantomKernelDesktop {
             // Create main window
             let window = ApplicationWindow::builder()
                 .application(app)
-                .title("PhantomKernel OS")
+                .title("Specteros OS")
                 .default_width(1920)
                 .default_height(1080)
                 .build();
@@ -66,15 +65,15 @@ fn apply_security_hardening() {
 }
 
 /// Apply the active theme to the desktop
-fn apply_theme(window: &ApplicationWindow) {
-    // Load theme from PhantomKernel config
+fn apply_theme(_window: &ApplicationWindow) {
+    // Load theme from Specteros config
     // Available: fsociety, allsafe, darkarmy, default
 }
 
-fn main() -> glib::ExitCode {
-    println!("👻 PhantomKernel Desktop Environment v0.1.0");
+fn main() -> gtk::glib::ExitCode {
+    println!("👻 Specteros Desktop Environment v0.1.0");
     println!("   Secure Wayland Desktop Shell");
-    
-    let desktop = PhantomKernelDesktop::new("org.phantomkernel.desktop");
+
+    let desktop = SpecterosDesktop::new("org.specteros.desktop");
     desktop.run()
 }

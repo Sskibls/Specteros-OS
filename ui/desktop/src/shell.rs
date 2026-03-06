@@ -1,4 +1,4 @@
-// PhantomKernel Desktop Shell
+// Specteros Desktop Shell
 // Main desktop environment with shard-aware workspace management
 
 use gtk::prelude::*;
@@ -63,10 +63,9 @@ impl DesktopShell {
 
     /// Switch to a different shard workspace
     pub fn switch_shard(&mut self, shard: &str) {
-        if let Some(workspace) = self.workspaces.iter().find(|w| w.shard == shard) {
-            self.current_shard = Some(shard.to_string());
-            // Show workspace widget
-        }
+        let _workspace = self.workspaces.iter().find(|w| w.shard == shard);
+        self.current_shard = Some(shard.to_string());
+        // Show workspace widget
     }
 
     /// Get current shard
@@ -76,7 +75,7 @@ impl DesktopShell {
 
     /// Get the main container widget
     pub fn widget(&self) -> &Widget {
-        &self.container.upcast()
+        self.container.upcast_ref()
     }
 
     /// Activate privacy mode (blur screen, hide content)

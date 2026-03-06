@@ -1,0 +1,11 @@
+[Unit]
+Description=Run Specteros update checks periodically
+
+[Timer]
+OnBootSec=10min
+OnUnitActiveSec=30min
+Unit=specteros-updated.service
+
+[Install]
+WantedBy=timers.target
+

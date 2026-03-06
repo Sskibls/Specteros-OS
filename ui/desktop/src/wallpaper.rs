@@ -1,4 +1,4 @@
-// PhantomKernel Desktop Wallpaper
+// Specteros Desktop Wallpaper
 // Dynamic, shard-aware wallpaper with privacy indicators
 
 use gtk::prelude::*;
@@ -15,9 +15,9 @@ impl Wallpaper {
             .css_name("wallpaper")
             .build();
 
-        area.set_draw_func(Some(Box::new(|_, cr, width, height| {
+        area.set_draw_func(|_, cr, width, height| {
             draw_wallpaper(cr, width, height);
-        })));
+        });
 
         Self {
             area,
@@ -31,23 +31,23 @@ impl Wallpaper {
     }
 
     pub fn widget(&self) -> &Widget {
-        &self.area.upcast()
+        self.area.upcast_ref()
     }
 }
 
-fn draw_wallpaper(cr: &cairo::Context, width: i32, height: i32) {
+fn draw_wallpaper(cr: &gtk::cairo::Context, width: i32, height: i32) {
     // Draw gradient background based on shard
     let colors = get_shard_colors("work");
-    
+
     // Linear gradient
-    let mut gradient = cairo::LinearGradient::new(0.0, 0.0, width as f64, height as f64);
+    let gradient = gtk::cairo::LinearGradient::new(0.0, 0.0, width as f64, height as f64);
     gradient.add_color_stop_rgb(0.0, colors.0, colors.1, colors.2);
     gradient.add_color_stop_rgb(1.0, colors.3, colors.4, colors.5);
-    
+
     cr.set_source(&gradient);
     cr.paint().unwrap();
-    
-    // Draw PhantomKernel logo watermark
+
+    // Draw Specteros logo watermark
     draw_watermark(cr, width, height);
 }
 
@@ -61,14 +61,14 @@ fn get_shard_colors(shard: &str) -> (f64, f64, f64, f64, f64, f64) {
     }
 }
 
-fn draw_watermark(cr: &cairo::Context, width: i32, height: i32) {
-    // Draw subtle PhantomKernel watermark
+fn draw_watermark(cr: &gtk::cairo::Context, width: i32, height: i32) {
+    // Draw subtle Specteros watermark
     cr.set_source_rgba(1.0, 1.0, 1.0, 0.03);
-    
+
     // Ghost icon placeholder
     let center_x = width as f64 / 2.0;
     let center_y = height as f64 / 2.0;
-    
+
     cr.arc(center_x, center_y, 100.0, 0.0, 2.0 * std::f64::consts::PI);
     cr.fill().unwrap();
 }
@@ -82,30 +82,30 @@ pub struct PrivacyFilter {
 impl PrivacyFilter {
     pub fn new() -> Self {
         let overlay = gtk::Overlay::new();
-        
+
         let blur_widget = gtk::Box::builder()
             .orientation(gtk::Orientation::Vertical)
             .css_name("privacy-filter")
             .build();
-        
+
         blur_widget.set_visible(false);
         overlay.add_overlay(&blur_widget);
-        
+
         Self {
             overlay,
             blur_widget,
         }
     }
-    
+
     pub fn enable(&self) {
         self.blur_widget.set_visible(true);
     }
-    
+
     pub fn disable(&self) {
         self.blur_widget.set_visible(false);
     }
-    
+
     pub fn widget(&self) -> &gtk::Widget {
-        &self.overlay.upcast()
+        self.overlay.upcast_ref()
     }
 }

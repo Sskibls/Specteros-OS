@@ -1,11 +1,11 @@
-# GhostKernel OS - Debian Live ISO Builder
+# Specteros OS - Debian Live ISO Builder
 # Build a real bootable Linux ISO with XFCE desktop
-# Usage: docker build -t ghostkernel-builder . && docker run --rm -v $(pwd)/output:/output --privileged ghostkernel-builder
+# Usage: docker build -t specteros-builder . && docker run --rm -v $(pwd)/output:/output --privileged specteros-builder
 
 FROM debian:bookworm
 
-LABEL maintainer="GhostKernel OS Team"
-LABEL description="GhostKernel OS Debian Live ISO Builder"
+LABEL maintainer="Specteros OS Team"
+LABEL description="Specteros OS Debian Live ISO Builder"
 
 # Prevent interactive prompts during build
 ENV DEBIAN_FRONTEND=noninteractive

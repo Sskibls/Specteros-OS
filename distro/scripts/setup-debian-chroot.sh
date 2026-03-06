@@ -12,13 +12,13 @@ echo "╚═══════════════════════�
 echo ""
 
 # Configuration
-GHOSTKERNEL_DIR="$HOME/os"
-BIN_DIR="$GHOSTKERNEL_DIR/target/release"
+SPECTEROS_DIR="$HOME/os"
+BIN_DIR="$SPECTEROS_DIR/target/release"
 
 # Check if PhantomKernel is built
 if [[ ! -f "$BIN_DIR/phantomkernel-tui" ]]; then
     echo "Building PhantomKernel binaries..."
-    cd "$GHOSTKERNEL_DIR"
+    cd "$SPECTEROS_DIR"
     cargo build --release -p phantomkernel-tui -p phantomkernel-shell
 fi
 

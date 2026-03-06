@@ -1,5 +1,5 @@
 [package]
-name = "ghostkernel-test-harness"
+name = "specteros-test-harness"
 version = "0.1.0"
 edition = "2021"
 
@@ -10,12 +10,12 @@ gk-policy = { path = "../../core/libs/gk-policy" }
 gk-audit = { path = "../../core/libs/gk-audit" }
 gk-crypto = { path = "../../core/libs/gk-crypto" }
 gk-persistence = { path = "../../core/libs/gk-persistence" }
-ghostkernel-policyd = { path = "../../core/daemons/ghostkernel-policyd" }
-ghostkernel-shardd = { path = "../../core/daemons/ghostkernel-shardd" }
-ghostkernel-netd = { path = "../../core/daemons/ghostkernel-netd" }
-ghostkernel-airlockd = { path = "../../core/daemons/ghostkernel-airlockd" }
-ghostkernel-auditd = { path = "../../core/daemons/ghostkernel-auditd" }
-ghostkernel-guardian = { path = "../../core/daemons/ghostkernel-guardian" }
+specteros-policyd = { path = "../../core/daemons/specteros-policyd" }
+specteros-shardd = { path = "../../core/daemons/specteros-shardd" }
+specteros-netd = { path = "../../core/daemons/specteros-netd" }
+specteros-airlockd = { path = "../../core/daemons/specteros-airlockd" }
+specteros-auditd = { path = "../../core/daemons/specteros-auditd" }
+specteros-guardian = { path = "../../core/daemons/specteros-guardian" }
 
 [dev-dependencies]
 tempfile = "3"

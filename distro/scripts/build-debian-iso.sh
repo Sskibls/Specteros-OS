@@ -1,6 +1,6 @@
 #!/bin/bash
 #
-# PhantomKernel OS - Debian-based Linux Distribution Builder
+# SpecterOS - Debian-based Linux Distribution Builder
 # Creates a real bootable Debian Live ISO with XFCE desktop
 #
 
@@ -8,9 +8,9 @@ set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 PROJECT_ROOT="$(dirname "$SCRIPT_DIR")"
-DISTRO_NAME="phantomkernel-os"
+DISTRO_NAME="specteros-os"
 VERSION="0.1.0"
-DEBIAN_SUITE="bookworm"
+DEBIAN_SUITE="trixie"
 ARCH="amd64"
 
 # Colors
@@ -28,7 +28,7 @@ log_error() { echo -e "${RED}[ERROR]${NC} $1"; }
 log_step() { echo -e "${CYAN}[STEP]${NC} $1"; }
 
 echo "╔═══════════════════════════════════════════════════════════╗"
-echo "║      PhantomKernel OS - Debian Live ISO Builder             ║"
+echo "║      SpecterOS - Debian Live ISO Builder                  ║"
 echo "║      Real Linux Distribution with XFCE Desktop            ║"
 echo "╚═══════════════════════════════════════════════════════════╝"
 echo ""
@@ -61,7 +61,7 @@ fi
 log_success "All required tools found"
 
 # Create working directories
-WORK_DIR="/var/tmp/phantomkernel-build-$$"
+WORK_DIR="/var/tmp/specteros-build-$$"
 ROOTFS="$WORK_DIR/rootfs"
 ISO_ROOT="$WORK_DIR/iso_root"
 
@@ -74,24 +74,24 @@ cleanup() {
 }
 trap cleanup EXIT
 
-log_step "Creating PhantomKernel OS (Debian $DEBIAN_SUITE)..."
+log_step "Creating SpecterOS (Debian $DEBIAN_SUITE)..."
 
-# Bootstrap Debian base system
+# Bootstrap Debian base system (Debian 12+ needs non-free-firmware for firmware packages)
 log_step "Bootstrapping Debian base system..."
-debootstrap --include=systemd,grub2,linux-image-$ARCH,firmware-linux \
-    --components=main,contrib,non-free \
+debootstrap --include=systemd,grub2,linux-image-$ARCH,firmware-linux-nonfree \
+    --components=main,contrib,non-free,non-free-firmware \
     $DEBIAN_SUITE "$ROOTFS" http://deb.debian.org/debian/ 2>&1 | tee /tmp/debootstrap.log
 
 log_success "Debian base installed"
 
-# Copy PhantomKernel binaries
-log_step "Installing PhantomKernel components..."
+# Copy SpecterOS binaries
+log_step "Installing SpecterOS components..."
 if [[ -d "$PROJECT_ROOT/target/release" ]]; then
-    mkdir -p "$ROOTFS/opt/phantomkernel/bin"
-    cp "$PROJECT_ROOT/target/release"/phantomkernel-* "$ROOTFS/opt/phantomkernel/bin/" 2>/dev/null || true
-    cp "$PROJECT_ROOT/target/release/gkctl" "$ROOTFS/opt/phantomkernel/bin/" 2>/dev/null || true
-    cp "$PROJECT_ROOT/target/release/phantomkernel-tui" "$ROOTFS/opt/phantomkernel/bin/" 2>/dev/null || true
-    log_success "PhantomKernel binaries copied"
+    mkdir -p "$ROOTFS/opt/specteros/bin"
+    cp "$PROJECT_ROOT/target/release"/specteros-* "$ROOTFS/opt/specteros/bin/" 2>/dev/null || true
+    cp "$PROJECT_ROOT/target/release/gkctl" "$ROOTFS/opt/specteros/bin/" 2>/dev/null || true
+    cp "$PROJECT_ROOT/target/release/specteros-tui" "$ROOTFS/opt/specteros/bin/" 2>/dev/null || true
+    log_success "SpecterOS binaries copied"
 fi
 
 # Install desktop environment (XFCE - lightweight)
@@ -122,12 +122,12 @@ log_success "Desktop environment installed"
 log_step "Configuring system..."
 
 # Set hostname
-echo "phantomkernel" > "$ROOTFS/etc/hostname"
+echo "specteros" > "$ROOTFS/etc/hostname"
 
 # Set hosts
 cat > "$ROOTFS/etc/hosts" << EOF
 127.0.0.1   localhost
-127.0.1.1   phantomkernel
+127.0.1.1   specteros
 ::1         localhost ip6-localhost ip6-loopback
 EOF
 
@@ -136,7 +136,7 @@ echo "UTC" > "$ROOTFS/etc/timezone"
 chroot "$ROOTFS" dpkg-reconfigure -f noninteractive tzdata
 
 # Set root password
-echo "root:phantomkernel" | chroot "$ROOTFS" chpasswd
+echo "root:specteros" | chroot "$ROOTFS" chpasswd
 
 # Create user
 chroot "$ROOTFS" useradd -m -s /bin/bash -G sudo,audio,video,dialout user
@@ -150,11 +150,11 @@ chmod 440 "$ROOTFS/etc/sudoers.d/user"
 chroot "$ROOTFS" systemctl enable lightdm
 chroot "$ROOTFS" systemctl enable NetworkManager
 
-# Create PhantomKernel configuration
-mkdir -p "$ROOTFS/etc/phantomkernel"
-cat > "$ROOTFS/etc/phantomkernel/config.toml" << 'EOF'
+# Create SpecterOS configuration
+mkdir -p "$ROOTFS/etc/specteros"
+cat > "$ROOTFS/etc/specteros/config.toml" << 'EOF'
 [general]
-hostname = "phantomkernel"
+hostname = "specteros"
 theme = "fsociety"
 log_level = "info"
 audit_enabled = true
@@ -181,17 +181,17 @@ auto_start_tui = false
 show_privacy_indicator = true
 EOF
 
-# Create systemd services for PhantomKernel
+# Create systemd services for SpecterOS
 mkdir -p "$ROOTFS/etc/systemd/system"
 for daemon in shardd netd policyd auditd guardian; do
-    cat > "$ROOTFS/etc/systemd/system/phantomkernel-${daemon}.service" << EOF
+    cat > "$ROOTFS/etc/systemd/system/specteros-${daemon}.service" << EOF
 [Unit]
-Description=PhantomKernel ${daemon^}
+Description=SpecterOS ${daemon^}
 After=network.target
 
 [Service]
 Type=simple
-ExecStart=/opt/phantomkernel/bin/phantomkernel-${daemon}
+ExecStart=/opt/specteros/bin/specteros-${daemon}
 Restart=on-failure
 RestartSec=5
 
@@ -201,27 +201,27 @@ EOF
 done
 
 # Create welcome script
-cat > "$ROOTFS/usr/local/bin/phantomkernel-welcome" << 'EOF'
+cat > "$ROOTFS/usr/local/bin/specteros-welcome" << 'EOF'
 #!/bin/bash
-# PhantomKernel OS Welcome Script
+# SpecterOS OS Welcome Script
 
-if [[ ! -f ~/.phantomkernel-welcomed ]]; then
-    zenity --info --title="Welcome to PhantomKernel OS" \
-        --text="Welcome to PhantomKernel OS!\n\nA privacy-focused Linux distribution.\n\nQuick Start:\n• phantomkernel-tui - Terminal dashboard\n• phantomkernel-shell - Interactive CLI\n• Settings - System configuration\n\nPrivacy Features:\n✓ Persona Shards\n✓ Network Kill Switch\n✓ Audit Logging" \
+if [[ ! -f ~/.specteros-welcomed ]]; then
+    zenity --info --title="Welcome to SpecterOS OS" \
+        --text="Welcome to SpecterOS OS!\n\nA privacy-focused Linux distribution.\n\nQuick Start:\n• specteros-tui - Terminal dashboard\n• specteros-shell - Interactive CLI\n• Settings - System configuration\n\nPrivacy Features:\n✓ Persona Shards\n✓ Network Kill Switch\n✓ Audit Logging" \
         --width=400
     
-    touch ~/.phantomkernel-welcomed
+    touch ~/.specteros-welcomed
 fi
 EOF
-chmod +x "$ROOTFS/usr/local/bin/phantomkernel-welcome"
+chmod +x "$ROOTFS/usr/local/bin/specteros-welcome"
 
 # Add to XFCE autostart
 mkdir -p "$ROOTFS/etc/xdg/autostart"
-cat > "$ROOTFS/etc/xdg/autostart/phantomkernel-welcome.desktop" << 'EOF'
+cat > "$ROOTFS/etc/xdg/autostart/specteros-welcome.desktop" << 'EOF'
 [Desktop Entry]
 Type=Application
-Name=PhantomKernel Welcome
-Exec=/usr/local/bin/phantomkernel-welcome
+Name=SpecterOS Welcome
+Exec=/usr/local/bin/specteros-welcome
 Terminal=false
 X-GNOME-Autostart-enabled=true
 EOF
@@ -234,17 +234,17 @@ cat > "$ROOTFS/boot/grub/grub.cfg" << 'EOF'
 set timeout=5
 set default=0
 
-menuentry "PhantomKernel OS (Live)" {
+menuentry "SpecterOS OS (Live)" {
     linux /live/vmlinuz boot=live quiet splash
     initrd /live/initrd.img
 }
 
-menuentry "PhantomKernel OS (Live - Failsafe)" {
+menuentry "SpecterOS OS (Live - Failsafe)" {
     linux /live/vmlinuz boot=live quiet failsafe
     initrd /live/initrd.img
 }
 
-menuentry "PhantomKernel OS (Install)" {
+menuentry "SpecterOS OS (Install)" {
     linux /install/vmlinuz quiet
     initrd /install/initrd.gz
 }
@@ -281,27 +281,27 @@ xorriso -as mkisofs \
     -eltorito-alt-boot \
     -no-emul-boot \
     -isohybrid-mbr /usr/lib/ISOLINUX/isohdpfx.bin \
-    -o "$PROJECT_ROOT/output/phantomkernel-os-debian-$(date +%Y%m%d).iso" \
+    -o "$PROJECT_ROOT/output/specteros-os-debian-$(date +%Y%m%d).iso" \
     "$ISO_ROOT" 2>&1 | tee /tmp/iso-build.log
 
-log_success "ISO created: $PROJECT_ROOT/output/phantomkernel-os-debian-$(date +%Y%m%d).iso"
+log_success "ISO created: $PROJECT_ROOT/output/specteros-os-debian-$(date +%Y%m%d).iso"
 
 # Generate checksum
 cd "$PROJECT_ROOT/output"
-sha256sum phantomkernel-os-debian-*.iso > phantomkernel-os-debian-$(date +%Y%m%d).iso.sha256
-log_info "SHA256: $(cat phantomkernel-os-debian-*.sha256)"
+sha256sum specteros-os-debian-*.iso > specteros-os-debian-$(date +%Y%m%d).iso.sha256
+log_info "SHA256: $(cat specteros-os-debian-*.sha256)"
 
 # Summary
 echo ""
 echo "═══════════════════════════════════════════════════════════"
-echo "           PhantomKernel OS Build Complete"
+echo "           SpecterOS OS Build Complete"
 echo "═══════════════════════════════════════════════════════════"
 echo ""
-echo "Output: $PROJECT_ROOT/output/phantomkernel-os-debian-$(date +%Y%m%d).iso"
+echo "Output: $PROJECT_ROOT/output/specteros-os-debian-$(date +%Y%m%d).iso"
 ls -lh "$PROJECT_ROOT/output/"*.iso
 echo ""
 echo "To test with QEMU:"
-echo "  qemu-system-x86_64 -cdrom $PROJECT_ROOT/output/phantomkernel-os-debian-*.iso -m 2G -boot d"
+echo "  qemu-system-x86_64 -cdrom $PROJECT_ROOT/output/specteros-os-debian-*.iso -m 2G -boot d"
 echo ""
 echo "To install to disk:"
 echo "  Boot from ISO and select 'Install' option"

@@ -1,0 +1,15 @@
+#!/bin/sh
+set -e
+
+if [ "$1" = "remove" ]; then
+    systemctl stop specteros-shardd.service || true
+    systemctl disable specteros-shardd.service || true
+fi
+
+if [ "$1" = "purge" ]; then
+    systemctl daemon-reload || true
+fi
+
+#DEBHELPER#
+
+exit 0

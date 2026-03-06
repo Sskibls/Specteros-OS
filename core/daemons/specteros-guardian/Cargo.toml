@@ -1,0 +1,11 @@
+[package]
+name = "specteros-guardian"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+gk-audit = { path = "../../libs/gk-audit" }
+specteros-netd = { path = "../specteros-netd" }
+specteros-shardd = { path = "../specteros-shardd" }
+thiserror = "1.0"
+

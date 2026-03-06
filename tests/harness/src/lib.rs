@@ -12,7 +12,7 @@ pub fn run_smoke_policy_scenario() -> Result<bool> {
     Ok(matches!(decision, gk_policy::PolicyDecision::Deny(_)))
 }
 
-pub fn run_smoke_config_scenario() -> Result<gk_config::GhostkernelConfig> {
+pub fn run_smoke_config_scenario() -> Result<gk_config::SpecterosConfig> {
     gk_config::load_layered(&[])
 }
 

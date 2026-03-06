@@ -1,4 +1,4 @@
-// PhantomKernel Shard Manager
+// Specteros Shard Manager
 // Visual shard lifecycle management and isolation controls
 
 use gtk::prelude::*;
@@ -23,7 +23,10 @@ impl ShardManagerApp {
             .orientation(Orientation::Vertical)
             .css_name("shard-manager")
             .spacing(12)
-            .margin_all(12)
+            .margin_top(12)
+            .margin_bottom(12)
+            .margin_start(12)
+            .margin_end(12)
             .build();
 
         let header = Label::builder()
@@ -64,7 +67,10 @@ impl ShardManagerApp {
             .orientation(Orientation::Vertical)
             .css_name(&format!("shard-card shard-{}", name))
             .spacing(8)
-            .margin_all(12)
+            .margin_top(12)
+            .margin_bottom(12)
+            .margin_start(12)
+            .margin_end(12)
             .build();
 
         let title = Label::builder()
@@ -131,7 +137,7 @@ impl ShardManagerApp {
     }
 
     /// Connect shard start callback
-    pub fn connect_start<F: Fn(&str) + 'static>(&self, callback: F) {
+    pub fn connect_start<F: Fn(&str) + 'static + Clone>(&self, callback: F) {
         for card in &self.shards {
             let name = card.name.clone();
             let cb = callback.clone();
@@ -142,7 +148,7 @@ impl ShardManagerApp {
     }
 
     /// Connect shard stop callback
-    pub fn connect_stop<F: Fn(&str) + 'static>(&self, callback: F) {
+    pub fn connect_stop<F: Fn(&str) + 'static + Clone>(&self, callback: F) {
         for card in &self.shards {
             let name = card.name.clone();
             let cb = callback.clone();
@@ -153,7 +159,7 @@ impl ShardManagerApp {
     }
 
     pub fn widget(&self) -> &gtk::Widget {
-        &self.container.upcast()
+        self.container.upcast_ref()
     }
 }
 
@@ -180,12 +186,12 @@ impl AccessPolicyViewer {
         Self { container }
     }
 
-    pub fn show_policies(&self, policies: Vec<AccessPolicy>) {
+    pub fn show_policies(&self, _policies: Vec<AccessPolicy>) {
         // Display access policies between shards
     }
 
     pub fn widget(&self) -> &gtk::Widget {
-        &self.container.upcast()
+        self.container.upcast_ref()
     }
 }
 

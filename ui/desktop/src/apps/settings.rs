@@ -1,8 +1,8 @@
-// PhantomKernel Privacy Settings
+// Specteros Privacy Settings
 // Security and privacy configuration UI
 
 use gtk::prelude::*;
-use gtk::{Box, Button, CheckButton, ComboBoxText, Label, Orientation, Switch};
+use gtk::{Box, Button, ComboBoxText, Label, Orientation, Switch};
 
 pub struct PrivacySettings {
     container: Box,
@@ -14,7 +14,10 @@ impl PrivacySettings {
             .orientation(Orientation::Vertical)
             .css_name("privacy-settings")
             .spacing(16)
-            .margin_all(16)
+            .margin_top(16)
+            .margin_bottom(16)
+            .margin_start(16)
+            .margin_end(16)
             .build();
 
         // Security section
@@ -210,7 +213,7 @@ impl PrivacySettings {
         let subtitle_label = Label::builder()
             .label(subtitle)
             .halign(gtk::Align::Start)
-            .css_classes(&["subtitle"])
+            .css_classes(vec!["subtitle"])
             .build();
 
         labels.append(&title_label);
@@ -247,7 +250,7 @@ impl PrivacySettings {
         let subtitle_label = Label::builder()
             .label(subtitle)
             .halign(gtk::Align::Start)
-            .css_classes(&["subtitle"])
+            .css_classes(vec!["subtitle"])
             .build();
 
         labels.append(&title_label);
@@ -266,7 +269,7 @@ impl PrivacySettings {
     }
 
     pub fn widget(&self) -> &gtk::Widget {
-        &self.container.upcast()
+        self.container.upcast_ref()
     }
 }
 
@@ -281,7 +284,10 @@ impl EmergencyControls {
             .orientation(Orientation::Vertical)
             .css_name("emergency-controls")
             .spacing(12)
-            .margin_all(16)
+            .margin_top(16)
+            .margin_bottom(16)
+            .margin_start(16)
+            .margin_end(16)
             .build();
 
         let header = Label::builder()
@@ -315,11 +321,11 @@ impl EmergencyControls {
         Self { container }
     }
 
-    pub fn connect_panic<F: Fn() + 'static>(&self, callback: F) {
+    pub fn connect_panic<F: Fn() + 'static>(&self, _callback: F) {
         // Connect panic button
     }
 
     pub fn widget(&self) -> &gtk::Widget {
-        &self.container.upcast()
+        self.container.upcast_ref()
     }
 }

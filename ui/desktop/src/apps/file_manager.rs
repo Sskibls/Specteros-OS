@@ -1,4 +1,4 @@
-// PhantomKernel Secure File Manager
+// Specteros Secure File Manager
 // Shard-aware file browser with metadata sanitization
 
 use gtk::prelude::*;
@@ -135,7 +135,7 @@ impl SecureFileManager {
     }
 
     pub fn widget(&self) -> &gtk::Widget {
-        &self.container.upcast()
+        self.container.upcast_ref()
     }
 }
 
@@ -157,12 +157,12 @@ impl MetadataViewer {
         Self { container }
     }
 
-    pub fn show_metadata(&self, metadata: &std::collections::HashMap<String, String>) {
+    pub fn show_metadata(&self, _metadata: &std::collections::HashMap<String, String>) {
         // Display metadata
         // Option to strip before export
     }
 
     pub fn widget(&self) -> &gtk::Widget {
-        &self.container.upcast()
+        self.container.upcast_ref()
     }
 }

@@ -1,5 +1,5 @@
 [package]
-name = "ghostkernel-desktop"
+name = "specteros-desktop"
 version = "0.1.0"
 edition = "2021"
 license = "Apache-2.0"
@@ -14,7 +14,7 @@ gio = "0.19"
 wayland-client = "0.31"
 wayland-protocols = { version = "0.31", features = ["client"] }
 
-# GhostKernel integration
+# Specteros integration
 gk-ipc = { path = "../../core/libs/gk-ipc" }
 gk-policy = { path = "../../core/libs/gk-policy" }
 

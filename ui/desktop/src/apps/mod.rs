@@ -1,4 +1,4 @@
-// PhantomKernel Desktop Applications
+// Specteros Desktop Applications
 // Privacy-focused GUI applications
 
 pub mod file_manager;

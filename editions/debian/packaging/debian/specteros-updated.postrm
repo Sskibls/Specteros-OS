@@ -1,0 +1,15 @@
+#!/bin/sh
+set -e
+
+if [ "$1" = "remove" ]; then
+    systemctl stop specteros-updated.service || true
+    systemctl disable specteros-updated.service || true
+fi
+
+if [ "$1" = "purge" ]; then
+    systemctl daemon-reload || true
+fi
+
+#DEBHELPER#
+
+exit 0

@@ -14,7 +14,7 @@ echo ""
 
 # Configuration
 CHROOT_DIR="$HOME/phantomkernel-chroot"
-GHOSTKERNEL_BIN="$HOME/phantomkernel-bin"
+SPECTEROS_BIN="$HOME/phantomkernel-bin"
 
 # Colors
 BLUE='\033[0;34m'
@@ -45,7 +45,7 @@ success "Requirements met"
 
 # Create directories
 log "Creating directories..."
-mkdir -p "$CHROOT_DIR" "$GHOSTKERNEL_BIN"
+mkdir -p "$CHROOT_DIR" "$SPECTEROS_BIN"
 
 # Download Debian rootfs
 log "Downloading Debian rootfs..."
@@ -65,10 +65,10 @@ wget -q --show-progress \
 # Copy PhantomKernel binaries
 log "Installing PhantomKernel components..."
 if [[ -d "$HOME/os/target/release" ]]; then
-    cp "$HOME/os/target/release"/phantomkernel-tui "$GHOSTKERNEL_BIN/"
-    cp "$HOME/os/target/release"/phantomkernel-shell "$GHOSTKERNEL_BIN/"
-    cp "$HOME/os/target/release/gkctl" "$GHOSTKERNEL_BIN/" 2>/dev/null || true
-    chmod +x "$GHOSTKERNEL_BIN"/*
+    cp "$HOME/os/target/release"/phantomkernel-tui "$SPECTEROS_BIN/"
+    cp "$HOME/os/target/release"/phantomkernel-shell "$SPECTEROS_BIN/"
+    cp "$HOME/os/target/release/gkctl" "$SPECTEROS_BIN/" 2>/dev/null || true
+    chmod +x "$SPECTEROS_BIN"/*
     success "PhantomKernel binaries installed"
 fi
 
@@ -137,7 +137,7 @@ EOF
 chmod +x "$HOME/start-vnc.sh"
 
 # Create installation guide
-cat > "$HOME/GHOSTKERNEL-README.md" << 'EOF'
+cat > "$HOME/SPECTEROS-README.md" << 'EOF'
 # PhantomKernel OS - Termux Edition
 
 ## Quick Start
@@ -238,7 +238,7 @@ echo ""
 echo "Files created:"
 echo "  • ~/start-phantomkernel.sh  - Launch TUI"
 echo "  • ~/start-vnc.sh          - Start VNC server"
-echo "  • ~/GHOSTKERNEL-README.md - Full documentation"
+echo "  • ~/SPECTEROS-README.md - Full documentation"
 echo ""
 echo "To start:"
 echo "  ./start-phantomkernel.sh"

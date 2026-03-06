@@ -1,0 +1,12 @@
+#!/bin/sh
+set -e
+
+if [ "$1" = "configure" ]; then
+    systemctl daemon-reload || true
+    systemctl enable specteros-shardd.service || true
+    systemctl start specteros-shardd.service || true
+fi
+
+#DEBHELPER#
+
+exit 0

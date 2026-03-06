@@ -8,29 +8,29 @@ override_dh_auto_build:
 
 override_dh_auto_install:
 	# Install binaries for each package
-	mkdir -p debian/ghostkernel-init/usr/bin
-	install -m 755 target/release/ghostkernel-init debian/ghostkernel-init/usr/bin/
+	mkdir -p debian/specteros-init/usr/bin
+	install -m 755 target/release/specteros-init debian/specteros-init/usr/bin/
 
-	mkdir -p debian/ghostkernel-policyd/usr/bin
-	install -m 755 target/release/ghostkernel-policyd debian/ghostkernel-policyd/usr/bin/
+	mkdir -p debian/specteros-policyd/usr/bin
+	install -m 755 target/release/specteros-policyd debian/specteros-policyd/usr/bin/
 
-	mkdir -p debian/ghostkernel-shardd/usr/bin
-	install -m 755 target/release/ghostkernel-shardd debian/ghostkernel-shardd/usr/bin/
+	mkdir -p debian/specteros-shardd/usr/bin
+	install -m 755 target/release/specteros-shardd debian/specteros-shardd/usr/bin/
 
-	mkdir -p debian/ghostkernel-netd/usr/bin
-	install -m 755 target/release/ghostkernel-netd debian/ghostkernel-netd/usr/bin/
+	mkdir -p debian/specteros-netd/usr/bin
+	install -m 755 target/release/specteros-netd debian/specteros-netd/usr/bin/
 
-	mkdir -p debian/ghostkernel-airlockd/usr/bin
-	install -m 755 target/release/ghostkernel-airlockd debian/ghostkernel-airlockd/usr/bin/
+	mkdir -p debian/specteros-airlockd/usr/bin
+	install -m 755 target/release/specteros-airlockd debian/specteros-airlockd/usr/bin/
 
-	mkdir -p debian/ghostkernel-auditd/usr/bin
-	install -m 755 target/release/ghostkernel-auditd debian/ghostkernel-auditd/usr/bin/
+	mkdir -p debian/specteros-auditd/usr/bin
+	install -m 755 target/release/specteros-auditd debian/specteros-auditd/usr/bin/
 
-	mkdir -p debian/ghostkernel-guardian/usr/bin
-	install -m 755 target/release/ghostkernel-guardian debian/ghostkernel-guardian/usr/bin/
+	mkdir -p debian/specteros-guardian/usr/bin
+	install -m 755 target/release/specteros-guardian debian/specteros-guardian/usr/bin/
 
-	mkdir -p debian/ghostkernel-updated/usr/bin
-	install -m 755 target/release/ghostkernel-updated debian/ghostkernel-updated/usr/bin/
+	mkdir -p debian/specteros-updated/usr/bin
+	install -m 755 target/release/specteros-updated debian/specteros-updated/usr/bin/
 
 	mkdir -p debian/gkctl/usr/bin
 	install -m 755 target/release/gkctl debian/gkctl/usr/bin/

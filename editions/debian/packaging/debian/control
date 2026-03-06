@@ -1,61 +1,61 @@
-Source: ghostkernel
+Source: specteros
 Section: utils
 Priority: optional
-Maintainer: GhostKernel OS Team <dev@ghostkernel.org>
+Maintainer: Specteros OS Team <dev@specteros.org>
 Build-Depends: debhelper (>= 11), cargo, rustc, libssl-dev, pkg-config
 Standards-Version: 4.1.4
-Homepage: https://ghostkernel.org
+Homepage: https://specteros.org
 
-Package: ghostkernel-init
+Package: specteros-init
 Architecture: any
 Depends: ${shlibs:Depends}, ${misc:Depends}, systemd
-Description: GhostKernel OS Boot Orchestrator
- Handles boot orchestration and immutable root checks for GhostKernel OS.
+Description: Specteros OS Boot Orchestrator
+ Handles boot orchestration and immutable root checks for Specteros OS.
 
-Package: ghostkernel-policyd
+Package: specteros-policyd
 Architecture: any
 Depends: ${shlibs:Depends}, ${misc:Depends}, systemd
-Description: GhostKernel OS Policy Engine
- Capability broker and permission policy engine for GhostKernel OS.
+Description: Specteros OS Policy Engine
+ Capability broker and permission policy engine for Specteros OS.
 
-Package: ghostkernel-shardd
+Package: specteros-shardd
 Architecture: any
 Depends: ${shlibs:Depends}, ${misc:Depends}, systemd
-Description: GhostKernel OS Shard Manager
+Description: Specteros OS Shard Manager
  Handles persona shard lifecycle and context isolation.
 
-Package: ghostkernel-netd
+Package: specteros-netd
 Architecture: any
 Depends: ${shlibs:Depends}, ${misc:Depends}, systemd, iptables, nftables
-Description: GhostKernel OS Network Daemon
+Description: Specteros OS Network Daemon
  Shard-aware network policy and route manager.
 
-Package: ghostkernel-airlockd
+Package: specteros-airlockd
 Architecture: any
 Depends: ${shlibs:Depends}, ${misc:Depends}, systemd
-Description: GhostKernel OS Airlock Service
+Description: Specteros OS Airlock Service
  Controlled inter-shard transfer pipeline with metadata sanitization.
 
-Package: ghostkernel-auditd
+Package: specteros-auditd
 Architecture: any
 Depends: ${shlibs:Depends}, ${misc:Depends}, systemd
-Description: GhostKernel OS Audit Service
+Description: Specteros OS Audit Service
  Tamper-evident audit log service for security events.
 
-Package: ghostkernel-guardian
+Package: specteros-guardian
 Architecture: any
 Depends: ${shlibs:Depends}, ${misc:Depends}, systemd
-Description: GhostKernel OS OPSEC Advisor
+Description: Specteros OS OPSEC Advisor
  Local security advisor and risk alert system.
 
-Package: ghostkernel-updated
+Package: specteros-updated
 Architecture: any
 Depends: ${shlibs:Depends}, ${misc:Depends}, systemd
-Description: GhostKernel OS Update Daemon
+Description: Specteros OS Update Daemon
  Signed and reproducible updates with rollback support.
 
 Package: gkctl
 Architecture: any
 Depends: ${shlibs:Depends}, ${misc:Depends}
-Description: GhostKernel OS Control Utility
- Command-line interface for managing GhostKernel OS services and shards.
+Description: Specteros OS Control Utility
+ Command-line interface for managing Specteros OS services and shards.

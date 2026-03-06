@@ -284,13 +284,13 @@ default = phantomkernel
 label = PhantomKernel OS
 menu label = ^PhantomKernel OS
 kernel /vmlinuz
-append initrd=/initrd.img root=live:CDLABEL=GHOSTKERNEL ro rd.live.image quiet
+append initrd=/initrd.img root=live:CDLABEL=SPECTEROS ro rd.live.image quiet
 
 [efi]
 label = PhantomKernel OS
 menu label = PhantomKernel OS
 kernel /EFI/BOOT/vmlinuz
-append initrd=/EFI/BOOT/initrd.img root=live:CDLABEL=GHOSTKERNEL ro rd.live.image quiet
+append initrd=/EFI/BOOT/initrd.img root=live:CDLABEL=SPECTEROS ro rd.live.image quiet
 EOF
 
 success "Lorax template created"
