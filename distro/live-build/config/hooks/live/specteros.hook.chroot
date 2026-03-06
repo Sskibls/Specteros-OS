@@ -1,0 +1,22 @@
+#!/bin/sh
+set -e
+
+# Create SpecterOS directory
+mkdir -p /opt/specteros/bin
+
+# Copy SpecterOS binaries from host
+# These will be copied into the chroot during build
+if [ -d /specteros-binaries ]; then
+    cp /specteros-binaries/specteros-* /opt/specteros/bin/ 2>/dev/null || true
+    chown root:root /opt/specteros/bin/specteros-* 2>/dev/null || true
+    chmod +x /opt/specteros/bin/specteros-* 2>/dev/null || true
+fi
+
+# Create systemd service files
+mkdir -p /etc/systemd/system
+
+# Add to PATH
+echo 'export PATH="/opt/specteros/bin:$PATH"' >> /etc/skel/.bashrc
+echo 'export PATH="/opt/specteros/bin:$PATH"' >> /root/.bashrc
+
+exit 0
