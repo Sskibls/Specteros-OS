@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Installation - SpecterOS Documentation</title>
+    <meta name="description" content="Complete installation guide for SpecterOS">
+    <link rel="stylesheet" href="../css/style.css">
+    <style>
+        .docs-header { padding: 140px 0 60px; background: var(--bg-secondary); text-align: center; }
+        .docs-content { max-width: 900px; margin: 0 auto; padding: 60px 20px 100px; }
+        .docs-content h1 { font-size: 2rem; margin-bottom: 20px; }
+        .docs-content h2 { font-size: 1.5rem; margin: 40px 0 20px; color: var(--accent-primary); }
+        .docs-content h3 { font-size: 1.2rem; margin: 30px 0 16px; }
+        .docs-content p { color: var(--text-muted); line-height: 1.8; margin-bottom: 16px; }
+        .docs-content ul, .docs-content ol { color: var(--text-muted); line-height: 1.8; margin: 16px 0 16px 30px; }
+        .docs-content li { margin-bottom: 10px; }
+        .docs-content code { background: var(--bg-primary); padding: 2px 8px; border-radius: 4px; font-family: var(--font-mono); font-size: 0.9em; color: var(--accent-primary); }
+        .docs-content pre { background: var(--bg-primary); border: 1px solid var(--border-color); border-radius: 8px; padding: 20px; margin: 20px 0; overflow-x: auto; }
+        .docs-content pre code { padding: 0; background: none; }
+        .note { background: rgba(0, 212, 170, 0.1); border-left: 4px solid var(--accent-primary); padding: 16px; border-radius: 8px; margin: 20px 0; }
+        .warning { background: rgba(245, 158, 11, 0.1); border-left: 4px solid var(--warning); padding: 16px; border-radius: 8px; margin: 20px 0; }
+        .step { counter-increment: step; margin-bottom: 30px; }
+        .step::before { content: "Step " counter(step); display: block; font-family: var(--font-display); font-weight: 600; color: var(--accent-primary); margin-bottom: 10px; }
+        .back-link { display: inline-flex; align-items: center; gap: 8px; color: var(--accent-primary); margin-bottom: 20px; }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container nav-container">
+            <a href="../index.html" class="logo">
+                <svg class="logo-svg" viewBox="0 0 40 40" fill="none">
+                    <circle cx="20" cy="20" r="18" stroke="url(#logo-gradient)" stroke-width="2"/>
+                    <path d="M20 8C15 8 12 12 12 18C12 24 15 28 20 28C25 28 28 24 28 18C28 12 25 8 20 8Z" fill="url(#logo-gradient)"/>
+                    <circle cx="20" cy="16" r="3" fill="#0F0F0F"/>
+                    <defs><linearGradient id="logo-gradient" x1="2" y1="2" x2="38" y2="38"><stop stop-color="#00D4AA"/><stop offset="1" stop-color="#7C3AED"/></linearGradient></defs>
+                </svg>
+                <span class="logo-text">SPECTER<span class="logo-accent">OS</span></span>
+            </a>
+            <ul class="nav-menu">
+                <li><a href="../index.html#features">Features</a></li>
+                <li><a href="../index.html#download">Download</a></li>
+                <li><a href="index.html" class="active">Docs</a></li>
+                <li><a href="../blog.html">Blog</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <header class="docs-header">
+        <div class="container">
+            <span class="section-tag">DOCUMENTATION</span>
+            <h1>Installation Guide</h1>
+        </div>
+    </header>
+
+    <main class="docs-content">
+        <a href="index.html" class="back-link">← Back to Documentation</a>
+
+        <h2>Prerequisites</h2>
+        <ul>
+            <li>USB drive (8GB minimum)</li>
+            <li>SpecterOS ISO (downloaded from <a href="../index.html#download">download page</a>)</li>
+            <li>Internet connection (for updates during installation)</li>
+            <li>Backup of important data</li>
+        </ul>
+
+        <div class="warning">
+            <strong>⚠️ Warning:</strong> Installation will erase all data on the target disk. Make sure to back up important files first!
+        </div>
+
+        <h2>Step 1: Create Bootable USB</h2>
+        
+        <div class="step">
+            <h3>Windows - Using Rufus</h3>
+            <ol>
+                <li>Download Rufus from <a href="https://rufus.ie" target="_blank">rufus.ie</a></li>
+                <li>Insert your USB drive</li>
+                <li>Open Rufus and select your USB drive</li>
+                <li>Click "SELECT" and choose the SpecterOS ISO</li>
+                <li>Click "START" and wait for completion</li>
+            </ol>
+        </div>
+
+        <div class="step">
+            <h3>macOS/Linux - Using dd</h3>
+            <pre><code>sudo dd if=specteros-debian-20240305.iso of=/dev/sdX bs=4M status=progress && sync</code></pre>
+            <p>Replace <code>/dev/sdX</code> with your USB drive (e.g., <code>/dev/sdb</code>).</p>
+        </div>
+
+        <h2>Step 2: Boot from USB</h2>
+        
+        <div class="step">
+            <h3>Access Boot Menu</h3>
+            <ol>
+                <li>Insert the USB drive into your computer</li>
+                <li>Restart your computer</li>
+                <li>Press the boot menu key repeatedly (usually F12, F10, F2, or Del)</li>
+                <li>Select your USB drive from the boot menu</li>
+            </ol>
+        </div>
+
+        <div class="note">
+            <strong>💡 Tip:</strong> Common boot menu keys by manufacturer:
+            <ul>
+                <li>Dell: F12</li>
+                <li>HP: F9 or Esc</li>
+                <li>Lenovo: F12 or Fn + F12</li>
+                <li>ASUS: F8 or Esc</li>
+                <li>Acer: F12</li>
+            </ul>
+        </div>
+
+        <h2>Step 3: Installation Process</h2>
+        
+        <div class="step">
+            <h3>Boot Menu</h3>
+            <p>From the SpecterOS boot menu, select:</p>
+            <ul>
+                <li><strong>SpecterOS (Live)</strong> - Try before installing</li>
+                <li><strong>SpecterOS (Install)</strong> - Install directly</li>
+            </ul>
+        </div>
+
+        <div class="step">
+            <h3>Installation Wizard</h3>
+            <ol>
+                <li><strong>Welcome:</strong> Select your language</li>
+                <li><strong>Keyboard:</strong> Choose your keyboard layout</li>
+                <li><strong>Installation Type:</strong>
+                    <ul>
+                        <li><strong>Erase disk and install:</strong> Recommended (uses entire disk with encryption)</li>
+                        <li><strong>Manual partitioning:</strong> For advanced users</li>
+                    </ul>
+                </li>
+                <li><strong>Encryption:</strong> Enter a strong passphrase (required at every boot)</li>
+                <li><strong>User Account:</strong> Create your username and password</li>
+                <li><strong>Timezone:</strong> Select your timezone</li>
+                <li><strong>Install:</strong> Review and confirm installation</li>
+            </ol>
+        </div>
+
+        <div class="note">
+            <strong>🔐 Security Tip:</strong> Use a long, unique passphrase for encryption (at least 16 characters). Store it in a password manager.
+        </div>
+
+        <h2>Step 4: First Boot</h2>
+        
+        <div class="step">
+            <h3>Initial Setup</h3>
+            <ol>
+                <li>Remove USB drive when installation completes</li>
+                <li>Click "Restart Now"</li>
+                <li>Enter encryption passphrase at boot screen</li>
+                <li>Login with your password</li>
+                <li>Complete the welcome wizard</li>
+            </ol>
+        </div>
+
+        <h2>Post-Installation</h2>
+        
+        <h3>Update System</h3>
+        <pre><code>sudo apt update && sudo apt upgrade -y</code></pre>
+
+        <h3>Enable Persona Shards</h3>
+        <p>Open Shard Manager from the applications menu to configure isolated environments.</p>
+
+        <h3>Configure Network Privacy</h3>
+        <p>Open Network settings to configure DNS over HTTPS and Tor integration.</p>
+
+        <h2>Troubleshooting</h2>
+        
+        <h3>Boot Issues</h3>
+        <p>If SpecterOS doesn't boot, try adding <code>nomodeset</code> to boot parameters:</p>
+        <pre><code>Press 'e' at boot menu → Add 'nomodeset' after 'quiet' → Press F10</code></pre>
+
+        <h3>Wi-Fi Not Working</h3>
+        <p>Some Wi-Fi cards require proprietary firmware:</p>
+        <pre><code>sudo apt install firmware-linux-nonfree</code></pre>
+
+        <h3>Installation Fails</h3>
+        <p>Check:
+            <ul>
+                <li>USB drive is properly created (try recreating)</li>
+                <li>ISO checksum matches</li>
+                <li>Sufficient disk space (20GB minimum)</li>
+                <li>Secure Boot is disabled in BIOS</li>
+            </ul>
+        </p>
+
+        <h2>Next Steps</h2>
+        <ul>
+            <li><a href="index.html">Getting Started Guide</a></li>
+            <li><a href="shards.html">Persona Shards</a></li>
+            <li><a href="security.html">Security Features</a></li>
+            <li><a href="../faq.html">FAQ</a></li>
+        </ul>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <a href="../index.html" class="logo">
+                        <svg class="logo-svg" viewBox="0 0 40 40" fill="none">
+                            <circle cx="20" cy="20" r="18" stroke="url(#logo-gradient-footer)" stroke-width="2"/>
+                            <path d="M20 8C15 8 12 12 12 18C12 24 15 28 20 28C25 28 28 24 28 18C28 12 25 8 20 8Z" fill="url(#logo-gradient-footer)"/>
+                            <circle cx="20" cy="16" r="3" fill="#0F0F0F"/>
+                            <defs><linearGradient id="logo-gradient-footer" x1="2" y1="2" x2="38" y2="38"><stop stop-color="#00D4AA"/><stop offset="1" stop-color="#7C3AED"/></linearGradient></defs>
+                        </svg>
+                        <span class="logo-text">SPECTER<span class="logo-accent">OS</span></span>
+                    </a>
+                    <p>Privacy-first Linux distribution for the modern age.</p>
+                </div>
+                <div class="footer-column"><h4>Product</h4><ul><li><a href="../index.html#features">Features</a></li><li><a href="../index.html#download">Download</a></li></ul></div>
+                <div class="footer-column"><h4>Resources</h4><ul><li><a href="index.html">Documentation</a></li><li><a href="installation.html">Installation</a></li><li><a href="../faq.html">FAQ</a></li></ul></div>
+                <div class="footer-column"><h4>Community</h4><ul><li><a href="https://github.com/Sskibls/Specteros-OS">GitHub</a></li><li><a href="#">Discord</a></li></ul></div>
+            </div>
+            <div class="footer-bottom"><p>&copy; 2024 SpecterOS Project. Licensed under Apache 2.0.</p></div>
+        </div>
+    </footer>
+    <script src="../js/main.js"></script>
+</body>
+</html>

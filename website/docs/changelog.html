@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Changelog - SpecterOS Documentation</title>
+    <meta name="description" content="SpecterOS release notes and changelog">
+    <link rel="stylesheet" href="../css/style.css">
+    <style>
+        .docs-header { padding: 140px 0 60px; background: var(--bg-secondary); text-align: center; }
+        .docs-content { max-width: 900px; margin: 0 auto; padding: 60px 20px 100px; }
+        .docs-content h1 { font-size: 2rem; margin-bottom: 20px; }
+        .docs-content h2 { font-size: 1.5rem; margin: 40px 0 20px; color: var(--accent-primary); }
+        .docs-content h3 { font-size: 1.2rem; margin: 30px 0 16px; }
+        .docs-content p { color: var(--text-muted); line-height: 1.8; margin-bottom: 16px; }
+        .docs-content ul { color: var(--text-muted); line-height: 1.8; margin: 16px 0 16px 30px; }
+        .docs-content li { margin-bottom: 10px; }
+        .back-link { display: inline-flex; align-items: center; gap: 8px; color: var(--accent-primary); margin-bottom: 20px; }
+        .release { background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 12px; padding: 24px; margin-bottom: 30px; }
+        .release-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; flex-wrap: wrap; gap: 12px; }
+        .release-version { font-family: var(--font-display); font-size: 1.5rem; font-weight: 700; color: var(--accent-primary); }
+        .release-date { color: var(--text-muted); font-size: 0.9rem; }
+        .release-badge { display: inline-block; padding: 4px 12px; border-radius: 100px; font-size: 0.75rem; font-weight: 600; text-transform: uppercase; }
+        .badge-latest { background: linear-gradient(135deg, rgba(0, 212, 170, 0.2), rgba(0, 212, 170, 0.1)); color: var(--accent-primary); border: 1px solid var(--accent-primary); }
+        .badge-stable { background: rgba(16, 185, 129, 0.1); color: var(--success); border: 1px solid var(--success); }
+        .change-list { list-style: none; margin: 0; padding: 0; }
+        .change-list li { padding: 8px 0; border-bottom: 1px solid var(--border-color); }
+        .change-list li:last-child { border-bottom: none; }
+        .change-type { display: inline-block; width: 80px; font-family: var(--font-display); font-size: 0.75rem; font-weight: 600; text-transform: uppercase; margin-right: 12px; }
+        .change-added { color: var(--success); }
+        .change-fixed { color: var(--accent-primary); }
+        .change-changed { color: var(--warning); }
+        .change-removed { color: var(--error); }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container nav-container">
+            <a href="../index.html" class="logo">
+                <svg class="logo-svg" viewBox="0 0 40 40" fill="none">
+                    <circle cx="20" cy="20" r="18" stroke="url(#logo-gradient)" stroke-width="2"/>
+                    <path d="M20 8C15 8 12 12 12 18C12 24 15 28 20 28C25 28 28 24 28 18C28 12 25 8 20 8Z" fill="url(#logo-gradient)"/>
+                    <circle cx="20" cy="16" r="3" fill="#0F0F0F"/>
+                    <defs><linearGradient id="logo-gradient" x1="2" y1="2" x2="38" y2="38"><stop stop-color="#00D4AA"/><stop offset="1" stop-color="#7C3AED"/></linearGradient></defs>
+                </svg>
+                <span class="logo-text">SPECTER<span class="logo-accent">OS</span></span>
+            </a>
+            <ul class="nav-menu">
+                <li><a href="../index.html#features">Features</a></li>
+                <li><a href="../index.html#download">Download</a></li>
+                <li><a href="index.html" class="active">Docs</a></li>
+                <li><a href="../blog.html">Blog</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <header class="docs-header">
+        <div class="container">
+            <span class="section-tag">RELEASE NOTES</span>
+            <h1>Changelog</h1>
+        </div>
+    </header>
+
+    <main class="docs-content">
+        <a href="index.html" class="back-link">← Back to Documentation</a>
+
+        <div class="release">
+            <div class="release-header">
+                <div>
+                    <span class="release-version">v0.1.0</span>
+                    <span class="release-badge badge-latest">Latest</span>
+                </div>
+                <span class="release-date">March 5, 2024</span>
+            </div>
+
+            <h3>Initial Public Release</h3>
+            <p>The first public release of SpecterOS, featuring core privacy and security functionality.</p>
+
+            <ul class="change-list">
+                <li>
+                    <span class="change-type change-added">Added</span>
+                    Persona Shards system with 4 isolated environments (Work, Anon, Burner, Lab)
+                </li>
+                <li>
+                    <span class="change-type change-added">Added</span>
+                    Network Kill Switch for emergency network disconnect
+                </li>
+                <li>
+                    <span class="change-type change-added">Added</span>
+                    LUKS2 full disk encryption support
+                </li>
+                <li>
+                    <span class="change-type change-added">Added</span>
+                    Tamper-evident audit logging framework
+                </li>
+                <li>
+                    <span class="change-type change-added">Added</span>
+                    Tor integration with transparent proxying
+                </li>
+                <li>
+                    <span class="change-type change-added">Added</span>
+                    DNS over HTTPS support
+                </li>
+                <li>
+                    <span class="change-type change-added">Added</span>
+                    A/B system updates with rollback support
+                </li>
+                <li>
+                    <span class="change-type change-added">Added</span>
+                    XFCE desktop environment with custom theme
+                </li>
+                <li>
+                    <span class="change-type change-added">Added</span>
+                    Privacy-focused web browser (Firefox ESR hardened)
+                </li>
+                <li>
+                    <span class="change-type change-added">Added</span>
+                    Terminal dashboard (ghostkernel-tui)
+                </li>
+                <li>
+                    <span class="change-type change-added">Added</span>
+                    Interactive shell (ghostkernel-shell)
+                </li>
+                <li>
+                    <span class="change-type change-added">Added</span>
+                    Web-based control interface
+                </li>
+                <li>
+                    <span class="change-type change-fixed">Fixed</span>
+                    Mobile website layout issues
+                </li>
+                <li>
+                    <span class="change-type change-fixed">Fixed</span>
+                    Network daemon crash on startup
+                </li>
+                <li>
+                    <span class="change-type change-changed">Changed</span>
+                    Improved installer user interface
+                </li>
+                <li>
+                    <span class="change-type change-changed">Changed</span>
+                    Updated documentation with installation guide
+                </li>
+            </ul>
+        </div>
+
+        <div class="release">
+            <div class="release-header">
+                <div>
+                    <span class="release-version">v0.0.3-alpha</span>
+                    <span class="release-badge badge-stable">Stable</span>
+                </div>
+                <span class="release-date">February 25, 2024</span>
+            </div>
+
+            <h3>Beta Testing Release</h3>
+            <p>Final beta release before public launch.</p>
+
+            <ul class="change-list">
+                <li>
+                    <span class="change-type change-added">Added</span>
+                    Emergency modes (Panic, Mask, Travel)
+                </li>
+                <li>
+                    <span class="change-type change-added">Added</span>
+                    Guardian daemon for OPSEC alerts
+                </li>
+                <li>
+                    <span class="change-type change-fixed">Fixed</span>
+                    Shard isolation boundary issues
+                </li>
+                <li>
+                    <span class="change-type change-fixed">Fixed</span>
+                    Memory leak in audit daemon
+                </li>
+                <li>
+                    <span class="change-type change-changed">Changed</span>
+                    Improved boot performance
+                </li>
+            </ul>
+        </div>
+
+        <div class="release">
+            <div class="release-header">
+                <div>
+                    <span class="release-version">v0.0.2-alpha</span>
+                </div>
+                <span class="release-date">February 15, 2024</span>
+            </div>
+
+            <h3>Alpha Release</h3>
+            <p>Second alpha release with core functionality.</p>
+
+            <ul class="change-list">
+                <li>
+                    <span class="change-type change-added">Added</span>
+                    Policy daemon with capability-based permissions
+                </li>
+                <li>
+                    <span class="change-type change-added">Added</span>
+                    Airlock daemon for secure file transfers
+                </li>
+                <li>
+                    <span class="change-type change-added">Added</span>
+                    Metadata sanitizer for images and documents
+                </li>
+                <li>
+                    <span class="change-type change-fixed">Fixed</span>
+                    Network routing between shards
+                </li>
+            </ul>
+        </div>
+
+        <div class="release">
+            <div class="release-header">
+                <div>
+                    <span class="release-version">v0.0.1-alpha</span>
+                </div>
+                <span class="release-date">January 30, 2024</span>
+            </div>
+
+            <h3>First Alpha</h3>
+            <p>Initial alpha release for internal testing.</p>
+
+            <ul class="change-list">
+                <li>
+                    <span class="change-type change-added">Added</span>
+                    Base Debian 12 system
+                </li>
+                <li>
+                    <span class="change-type change-added">Added</span>
+                    Core security daemons
+                </li>
+                <li>
+                    <span class="change-type change-added">Added</span>
+                    XFCE desktop environment
+                </li>
+                <li>
+                    <span class="change-type change-added">Added</span>
+                    Basic installer
+                </li>
+            </ul>
+        </div>
+
+        <h2>Upcoming Features</h2>
+        <p>Planned for future releases:</p>
+        <ul>
+            <li><strong>v0.2.0:</strong> ARM support (Raspberry Pi, Apple Silicon)</li>
+            <li><strong>v0.3.0:</strong> Mobile-optimized interface</li>
+            <li><strong>v0.4.0:</strong> Advanced threat detection</li>
+            <li><strong>v1.0.0:</strong> Stable release with full feature set</li>
+        </ul>
+
+        <h2>Release Schedule</h2>
+        <ul>
+            <li><strong>Beta releases:</strong> Every 2 weeks</li>
+            <li><strong>Stable releases:</strong> Every 3 months</li>
+            <li><strong>Security updates:</strong> As needed</li>
+        </ul>
+
+        <h2>Reporting Issues</h2>
+        <p>Found a bug or have a feature request? Report it on GitHub:</p>
+        <ul>
+            <li><a href="https://github.com/Sskibls/Specteros-OS/issues" target="_blank">Issue Tracker</a></li>
+            <li><a href="https://github.com/Sskibls/Specteros-OS/discussions" target="_blank">Feature Requests</a></li>
+        </ul>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <a href="../index.html" class="logo">
+                        <svg class="logo-svg" viewBox="0 0 40 40" fill="none">
+                            <circle cx="20" cy="20" r="18" stroke="url(#logo-gradient-footer)" stroke-width="2"/>
+                            <path d="M20 8C15 8 12 12 12 18C12 24 15 28 20 28C25 28 28 24 28 18C28 12 25 8 20 8Z" fill="url(#logo-gradient-footer)"/>
+                            <circle cx="20" cy="16" r="3" fill="#0F0F0F"/>
+                            <defs><linearGradient id="logo-gradient-footer" x1="2" y1="2" x2="38" y2="38"><stop stop-color="#00D4AA"/><stop offset="1" stop-color="#7C3AED"/></linearGradient></defs>
+                        </svg>
+                        <span class="logo-text">SPECTER<span class="logo-accent">OS</span></span>
+                    </a>
+                    <p>Privacy-first Linux distribution for the modern age.</p>
+                </div>
+                <div class="footer-column"><h4>Product</h4><ul><li><a href="../index.html#features">Features</a></li><li><a href="../index.html#download">Download</a></li></ul></div>
+                <div class="footer-column"><h4>Resources</h4><ul><li><a href="index.html">Documentation</a></li><li><a href="changelog.html">Changelog</a></li><li><a href="../faq.html">FAQ</a></li></ul></div>
+                <div class="footer-column"><h4>Community</h4><ul><li><a href="https://github.com/Sskibls/Specteros-OS">GitHub</a></li><li><a href="#">Discord</a></li></ul></div>
+            </div>
+            <div class="footer-bottom"><p>&copy; 2024 SpecterOS Project. Licensed under Apache 2.0.</p></div>
+        </div>
+    </footer>
+    <script src="../js/main.js"></script>
+</body>
+</html>

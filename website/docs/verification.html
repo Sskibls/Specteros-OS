@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Verification - SpecterOS Documentation</title>
+    <meta name="description" content="Verify your SpecterOS download with SHA256 and GPG signatures">
+    <link rel="stylesheet" href="../css/style.css">
+    <style>
+        .docs-header { padding: 140px 0 60px; background: var(--bg-secondary); text-align: center; }
+        .docs-content { max-width: 900px; margin: 0 auto; padding: 60px 20px 100px; }
+        .docs-content h1 { font-size: 2rem; margin-bottom: 20px; }
+        .docs-content h2 { font-size: 1.5rem; margin: 40px 0 20px; color: var(--accent-primary); }
+        .docs-content p { color: var(--text-muted); line-height: 1.8; margin-bottom: 16px; }
+        .docs-content code { background: var(--bg-primary); padding: 2px 8px; border-radius: 4px; font-family: var(--font-mono); font-size: 0.9em; color: var(--accent-primary); }
+        .docs-content pre { background: var(--bg-primary); border: 1px solid var(--border-color); border-radius: 8px; padding: 20px; margin: 20px 0; overflow-x: auto; }
+        .docs-content pre code { padding: 0; background: none; }
+        .note { background: rgba(0, 212, 170, 0.1); border-left: 4px solid var(--accent-primary); padding: 16px; border-radius: 8px; margin: 20px 0; }
+        .warning { background: rgba(245, 158, 11, 0.1); border-left: 4px solid var(--warning); padding: 16px; border-radius: 8px; margin: 20px 0; }
+        .back-link { display: inline-flex; align-items: center; gap: 8px; color: var(--accent-primary); margin-bottom: 20px; }
+        .verification-steps { counter-reset: step; }
+        .verification-step { counter-increment: step; margin-bottom: 30px; }
+        .verification-step::before { content: "Step " counter(step); display: block; font-family: var(--font-display); font-weight: 600; color: var(--accent-primary); margin-bottom: 10px; }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container nav-container">
+            <a href="../index.html" class="logo">
+                <svg class="logo-svg" viewBox="0 0 40 40" fill="none">
+                    <circle cx="20" cy="20" r="18" stroke="url(#logo-gradient)" stroke-width="2"/>
+                    <path d="M20 8C15 8 12 12 12 18C12 24 15 28 20 28C25 28 28 24 28 18C28 12 25 8 20 8Z" fill="url(#logo-gradient)"/>
+                    <circle cx="20" cy="16" r="3" fill="#0F0F0F"/>
+                    <defs><linearGradient id="logo-gradient" x1="2" y1="2" x2="38" y2="38"><stop stop-color="#00D4AA"/><stop offset="1" stop-color="#7C3AED"/></linearGradient></defs>
+                </svg>
+                <span class="logo-text">SPECTER<span class="logo-accent">OS</span></span>
+            </a>
+            <ul class="nav-menu">
+                <li><a href="../index.html#features">Features</a></li>
+                <li><a href="../index.html#download">Download</a></li>
+                <li><a href="index.html" class="active">Docs</a></li>
+                <li><a href="../blog.html">Blog</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <header class="docs-header">
+        <div class="container">
+            <span class="section-tag">SECURITY</span>
+            <h1>Verify Download</h1>
+        </div>
+    </header>
+
+    <main class="docs-content">
+        <a href="index.html" class="back-link">← Back to Documentation</a>
+
+        <p>Always verify your SpecterOS download before installation to ensure the ISO is authentic and hasn't been tampered with.</p>
+
+        <div class="warning">
+            <strong>⚠️ Important:</strong> Never skip verification! Installing from a corrupted or tampered ISO can compromise your security.
+        </div>
+
+        <h2>SHA256 Checksum Verification</h2>
+        
+        <div class="verification-steps">
+            <div class="verification-step">
+                <h3>Download the Checksum File</h3>
+                <p>Download <code>SHA256SUMS</code> from the <a href="../index.html#download">download page</a> or run:</p>
+                <pre><code>wget https://github.com/Sskibls/Specteros-OS/releases/download/v0.1.0/SHA256SUMS</code></pre>
+            </div>
+
+            <div class="verification-step">
+                <h3>Verify on Linux/macOS</h3>
+                <pre><code>sha256sum -c SHA256SUMS</code></pre>
+                <p>Expected output: <code>specteros-debian-20240305.iso: OK</code></p>
+            </div>
+
+            <div class="verification-step">
+                <h3>Verify on Windows</h3>
+                <pre><code>certutil -hashfile specteros-debian-20240305.iso SHA256</code></pre>
+                <p>Compare the output with the value in SHA256SUMS file.</p>
+            </div>
+
+            <div class="verification-step">
+                <h3>Manual Verification</h3>
+                <p>Generate checksum:</p>
+                <pre><code># Linux
+sha256sum specteros-debian-20240305.iso
+
+# macOS
+shasum -a 256 specteros-debian-20240305.iso
+
+# Windows (PowerShell)
+Get-FileHash specteros-debian-20240305.iso -Algorithm SHA256</code></pre>
+                <p>Compare with the official checksum from the download page.</p>
+            </div>
+        </div>
+
+        <h2>GPG Signature Verification (Advanced)</h2>
+        
+        <div class="note">
+            <strong>🔐 For Maximum Security:</strong> GPG verification provides cryptographic proof that the ISO was signed by the SpecterOS team.
+        </div>
+
+        <div class="verification-steps">
+            <div class="verification-step">
+                <h3>Import the SpecterOS Signing Key</h3>
+                <pre><code>gpg --keyserver keyserver.ubuntu.com --recv-keys 0xSPECTEROSKEY</code></pre>
+                <p>Key fingerprint: <code>XXXX XXXX XXXX XXXX SPECTEROS</code></p>
+            </div>
+
+            <div class="verification-step">
+                <h3>Download the Signature File</h3>
+                <pre><code>wget https://github.com/Sskibls/Specteros-OS/releases/download/v0.1.0/specteros-debian-20240305.iso.sig</code></pre>
+            </div>
+
+            <div class="verification-step">
+                <h3>Verify the Signature</h3>
+                <pre><code>gpg --verify specteros-debian-20240305.iso.sig specteros-debian-20240305.iso</code></pre>
+                <p>Expected output: <code>Good signature from "SpecterOS Release Team"</code></p>
+            </div>
+        </div>
+
+        <h2>What If Verification Fails?</h2>
+        
+        <div class="warning">
+            <strong>⚠️ If verification fails:</strong>
+            <ul>
+                <li><strong>DO NOT</strong> install from the ISO</li>
+                <li>Delete the downloaded ISO</li>
+                <li>Download again from the official source</li>
+                <li>Verify again before installation</li>
+            </ul>
+        </div>
+
+        <p>Possible causes of verification failure:</p>
+        <ul>
+            <li><strong>Download corrupted:</strong> Network issue during download</li>
+            <li><strong>Incomplete download:</strong> File didn't finish downloading</li>
+            <li><strong>Tampered file:</strong> File was modified after signing (security risk!)</li>
+            <li><strong>Wrong file:</strong> You're verifying a different file</li>
+        </ul>
+
+        <h2>Official Checksums</h2>
+        
+        <p>Current release (v0.1.0):</p>
+        <pre><code>specteros-debian-20240305.iso
+SHA256: abc123def456789... (see download page for full checksum)</code></pre>
+
+        <div class="note">
+            <strong>📌 Note:</strong> Always get checksums from the official download page or the SpecterOS GitHub repository.
+        </div>
+
+        <h2>Next Steps</h2>
+        <ul>
+            <li><a href="installation.html">Installation Guide</a> - Install SpecterOS</li>
+            <li><a href="index.html">Getting Started</a> - First steps after installation</li>
+            <li><a href="../faq.html">FAQ</a> - Common questions</li>
+        </ul>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <a href="../index.html" class="logo">
+                        <svg class="logo-svg" viewBox="0 0 40 40" fill="none">
+                            <circle cx="20" cy="20" r="18" stroke="url(#logo-gradient-footer)" stroke-width="2"/>
+                            <path d="M20 8C15 8 12 12 12 18C12 24 15 28 20 28C25 28 28 24 28 18C28 12 25 8 20 8Z" fill="url(#logo-gradient-footer)"/>
+                            <circle cx="20" cy="16" r="3" fill="#0F0F0F"/>
+                            <defs><linearGradient id="logo-gradient-footer" x1="2" y1="2" x2="38" y2="38"><stop stop-color="#00D4AA"/><stop offset="1" stop-color="#7C3AED"/></linearGradient></defs>
+                        </svg>
+                        <span class="logo-text">SPECTER<span class="logo-accent">OS</span></span>
+                    </a>
+                    <p>Privacy-first Linux distribution for the modern age.</p>
+                </div>
+                <div class="footer-column"><h4>Product</h4><ul><li><a href="../index.html#features">Features</a></li><li><a href="../index.html#download">Download</a></li></ul></div>
+                <div class="footer-column"><h4>Resources</h4><ul><li><a href="index.html">Documentation</a></li><li><a href="verification.html">Verification</a></li><li><a href="../faq.html">FAQ</a></li></ul></div>
+                <div class="footer-column"><h4>Community</h4><ul><li><a href="https://github.com/Sskibls/Specteros-OS">GitHub</a></li><li><a href="#">Discord</a></li></ul></div>
+            </div>
+            <div class="footer-bottom"><p>&copy; 2024 SpecterOS Project. Licensed under Apache 2.0.</p></div>
+        </div>
+    </footer>
+    <script src="../js/main.js"></script>
+</body>
+</html>
