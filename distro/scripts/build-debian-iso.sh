@@ -283,14 +283,12 @@ log_step "Building ISO image..."
 mkdir -p "$PROJECT_ROOT/output"
 
 # Copy ISOLINUX bootloader and create boot directory
+mkdir -p "$ISO_ROOT/isolinux"
 cp "$ROOTFS/usr/lib/ISOLINUX/isohdpfx.bin" "$ISO_ROOT/"
 cp "$ROOTFS/usr/lib/ISOLINUX/isolinux.bin" "$ISO_ROOT/isolinux/"
 cp "$ROOTFS/usr/lib/ISOLINUX/ldlinux.c32" "$ISO_ROOT/isolinux/"
 cp "$ROOTFS/usr/lib/syslinux/modules/bios/menu.c32" "$ISO_ROOT/isolinux/"
 cp "$ROOTFS/usr/lib/syslinux/modules/bios/chain.c32" "$ISO_ROOT/isolinux/"
-
-# Create isolinux config directory
-mkdir -p "$ISO_ROOT/isolinux"
 cat > "$ISO_ROOT/isolinux/isolinux.cfg" << 'EOF'
 UI menu.c32
 PROMPT 0
