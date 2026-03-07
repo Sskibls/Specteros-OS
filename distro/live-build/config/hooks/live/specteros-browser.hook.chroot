@@ -18,19 +18,15 @@ apt-get install -y \
 # Download and install uBlock Origin (same engine as Brave Shields)
 mkdir -p /usr/lib/mozilla/extensions/{ec8030f7-c20a-464f-9b0e-13a3a9e97384}/{d10d0bf8-f5b5-c8b4-a8b2-2b9879e08c5d}
 cd /tmp
-curl -L -o ubo.xpi "https://addons.mozilla.org/firefox/downloads/latest/ublock-origin/latest.xpi"
-unzip -o ubo.xpi -d /usr/lib/mozilla/extensions/{ec8030f7-c20a-464f-9b0e-13a3a9e97384}/{d10d0bf8-f5b5-c8b4-a8b2-2b9879e08c5d}/
-rm ubo.xpi
+curl -L -o ubo.xpi "https://addons.mozilla.org/firefox/downloads/latest/ublock-origin/latest.xpi" 2>/dev/null && unzip -o ubo.xpi -d /usr/lib/mozilla/extensions/{ec8030f7-c20a-464f-9b0e-13a3a9e97384}/{d10d0bf8-f5b5-c8b4-a8b2-2b9879e08c5d}/ || true
+rm -f ubo.xpi
 
 # Download Privacy Badger
-curl -L -o pb.xpi "https://addons.mozilla.org/firefox/downloads/latest/privacy-badger17/latest.xpi"
-unzip -o pb.xpi -d /usr/lib/mozilla/extensions/{ec8030f7-c20a-464f-9b0e-13a3a9e97384}/privacy-badger@eff.org/
-rm pb.xpi
+curl -L -o pb.xpi "https://addons.mozilla.org/firefox/downloads/latest/privacy-badger/latest.xpi" 2>/dev/null && unzip -o pb.xpi -d /usr/lib/mozilla/extensions/{ec8030f7-c20a-464f-9b0e-13a3a9e97384}/privacy-badger@eff.org/ || true
+rm -f pb.xpi
 
-# Download HTTPS Everywhere
-curl -L -o https-everywhere.xpi "https://addons.mozilla.org/firefox/downloads/latest/https-everywhere/latest.xpi"
-unzip -o https-everywhere.xpi -d /usr/lib/mozilla/extensions/{ec8030f7-c20a-464f-9b0e-13a3a9e97384}/https-everywhere@eff.org/
-rm https-everywhere.xpi
+# HTTPS Everywhere is deprecated (built into Firefox now)
+# Firefox has HTTPS-Only Mode enabled by default in our config
 
 # ============================================
 # 2. CREATE HARDENED FIREFOX PROFILE
